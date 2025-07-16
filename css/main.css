@@ -1,0 +1,33 @@
+@import "tailwindcss";
+:root {
+  --white: #fff;
+  --black: #000;
+  --lightBulue: #17a;
+  --secondary: #6c757d;
+  --primary: #0084f0;
+  --highlight: #f5f5f5;
+  --white: #faf9f6;
+  --accent: #7ed957;
+}
+.marquee {
+  animation: scroll 35s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from {
+      transform: translateX(-100%);
+  }
+
+  to {
+      transform: translateX(100%);
+  }
+}
+.productCard{
+    transition: transform 0.2s ;
+}
+.productCard:hover{
+     transform: translateY(-2px);
+}
