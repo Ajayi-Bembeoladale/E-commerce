@@ -16,17 +16,20 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+    
 }
 
 body {
-  display: flex;
   justify-content: center;
   align-items: center;
+  display: block;
   min-height: 100vh;
+  overflow: hidden;
 }
 .authentication {
   display: none;
 }
+
 
 #bank-interface {
   background-color: #fff;
@@ -63,6 +66,9 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 0 20px var(--black);
   overflow: hidden;
+  margin-top: 60px;
+  margin-left: 25%;
+
 }
 
 .wrapper .form-box {
@@ -175,11 +181,7 @@ form button:hover {
 } */
 
 /* bzh */
-.msg {
-  color: #fa2929;
-  position: absolute;
-  top: 25%;
-}
+
 .btn-container {
   padding: 20px;
   transition: 0.2s linear;
@@ -385,10 +387,10 @@ form .linkTxt {
 }
 .msg {
   text-align: center;
-  margin-top: 1rem;
   font-weight: bold;
   font-size: 1rem;
   transition: all 0.3s ease;
+  margin-top: 55px;
 }
 
 /* Transition Text Styling */
