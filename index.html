@@ -38,7 +38,7 @@
 <body class="overflow-x-hidden">
     <!-- SCROLL BAR -->
     <header class="text-center">
-        <div class="marquee-container p-3 bg-black text-[var(--accent)] overflow-hidden">
+        <div class="marquee-container p-3 bg-black text-[var(--white)] overflow-hidden">
             <div class="marquee whitespace-nowrap gap-8 font-regular flex font-bold text-[14px]">
                 <p>FREE SHIPPING ON ALL ORDERS OVER ₦20,000</p>
                 <p>FREE SHIPPING ON ALL ORDERS OVER ₦20,000</p>
@@ -49,42 +49,77 @@
     </header>
     <div class="nav">
         <!-- Navbar -->
-        <nav class="justify-evenly w-[100dvw] items-center shadow-md p-6 right md:flex gap-4 hidden bg-[#0084F0]">
-            <span class="text-3xl font-bold text-[#FAF9F6]"> SWIFTLY</span>
-            <!-- Search Bar  -->
-            <div class="flex items-center rounded-full px-4 py-2 w-[40rem] bg-[#FAF9F6]">
-                <i class="fa-solid fa-magnifying-glass text-sm justify-center mx-2"></i>
-                <input type="text" placeholder="search for brands, products and categories"
-                    class="outline-none w-full  -center bg-[#FAF9F6] text-md p-1">
+        <nav class="justify-between w-[100dvw] items-center sticky -top-2 shadow-md p-6 right px-10 flex bg-[#0084F0]">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-bold text-[#FAF9F6]"> SWIFTLY</span>
             </div>
+            <div class="hidden md:flex items-center gap-10">
+                <!-- Search Bar  -->
+                <div class="flex items-center rounded-full px-4 py-2 w-[40rem] bg-[#FAF9F6]">
+                    <i class="fa-solid fa-magnifying-glass text-sm justify-center mx-2"></i>
+                    <input type="text" placeholder="search for brands, products and categories"
+                        class="outline-none w-full  -center bg-[#FAF9F6] text-md p-1">
+                </div>
 
-            <!-- Account -->
-            <div class="account flex gap-2">
-                <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png" alt="user" />
-                <span class="text-md font-semibold text-white">Account</span>
-                <i class="fa-solid fa-angle-down text-white  text-sm mt-[.4rem]"></i>
-            </div>
+                <!-- Account -->
+                <div class="account flex gap-2">
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png"
+                        alt="user" />
+                    <span class="text-md font-semibold text-white">Account</span>
+                    <i class="fa-solid fa-angle-down text-white  text-sm mt-[.4rem]"></i>
+                </div>
 
-            <!-- Help -->
-            <div class="help flex gap-2">
-                <img width="24" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png" alt="help" />
-                <span class="text-md font-semibold text-white">Help</span>
-                <i class="fa-solid fa-angle-down text-white  text-sm mt-[.4rem]"></i>
-            </div>
+                <!-- Help -->
+                <div class="help flex gap-2">
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png"
+                        alt="help" />
+                    <span class="text-md font-semibold text-white">Help</span>
+                    <i class="fa-solid fa-angle-down text-white  text-sm mt-[.4rem]"></i>
+                </div>
 
-            <!-- Cart -->
-            <div class="cart flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping text-xl text-white"></i>
-                <span class="text-md font-semibold text-white">Cart</span>
-                <span id="noOfItemsCart" class="text-[#AFFF00] font-semibold text-lg">0</span>
+                <!-- Cart -->
+                <div class="cart flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-xl text-white"></i>
+                    <span class="text-md font-semibold text-white">Cart</span>
+                    <span id="noOfItemsCart" class="text-[#AFFF00] font-semibold text-lg">0</span>
+                </div>
             </div>
+            <button id="menuBtn" class=" flex md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </nav>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu"
+            class="fixed top-0 left-0 w-full h-full bg-primary bg-opacity-95 z-50 flex-col items-center justify-center hidden">
+            <button id="closeMenu" class="absolute top-4 right-6 text-white text-3xl">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="flex flex-col gap-8 items-center mt-20">
+                <div class="flex items-center gap-2">
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png"
+                        alt="user" />
+                    <span class="text-md font-semibold text-white">Account</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png"
+                        alt="help" />
+                    <span class="text-md font-semibold text-white">Help</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-xl text-white"></i>
+                    <span class="text-md font-semibold text-white">Cart</span>
+                    <span id="noOfItemsCartMobile" class="text-accent font-semibold text-lg">0</span>
+                </div>
+            </div>
+        </div>
+
     </div>
+
 
     <!-- Hero Section -->
     <div class="HeroSection flex p-6 gap-4 justify-center align-middle">
         <!-- LEFT -->
-        <div class="categories hidden lg:flex bg-[#0080ff] px-4 py-4 h-[32rem] text-white  text-md rounded-sm min-w-60 
+        <div class="categories hidden lg:flex bg-[#0080ff] px-4 py-4 h-[32rem] text-white  text-md rounded-md min-w-60 
             flex-col items-center justify-center space-y-5">
             <p class="flex items-center gap-3 hover:text-[#AFFF00] cursor-pointer transition-colors">
                 <i class="fas fa-tshirt"></i> Fashion
@@ -112,7 +147,7 @@
         </div>
 
         <!-- MIDDLE -->
-        <div class="flex flex-col bg-black p-3 w-full">
+        <div class="flex flex-col bg-[var(--primary)] p-3 w-full rounded-md h-auto">
             <div
                 class="slider-container relative w-full max-w-[1200px] mx-auto my-auto overflow-hidden flex justify-center items-center">
                 <!-- Slider Track -->
@@ -146,7 +181,7 @@
 
         <!-- RIGHT -->
         <div
-            class="categories hidden lg:flex bg-[#0084F0] flex-col justify-evenly gap-4 items-center text-center min-w-60 text-lg rounded-sm">
+            class="categories hidden lg:flex bg-[#0084F0] flex-col justify-evenly gap-4 items-center text-center min-w-60 text-lg rounded-md">
             <div class="productCard w-40 h-auto bg-white p-4 ">
                 <img src="https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp" alt="">
                 <p>Get 80% OFF</p>
@@ -161,42 +196,79 @@
     </div>
 
     <!-- FEATURED -->
-    <center class="text-xl font-semibold mt-2">FEATURED PRODUCTS</center>
-    <div class="featured flex gap-8 p-8 mt-4 justify-center items-center">
+    <center class="text-xl font-semibold mt-2 overflow-x-hidden">FEATURED PRODUCTS</center>
+    <div
+        class="featured flex gap-4 p-4 mt-4 justify-center items-stretch flex-nowrap overflow-x-auto hide-scrollbar w-full">
         <!-- Product Card 1: Perfume -->
-        <div class="productCard min-w-72 h-auto bg-white p-4 rounded-sm shadow-md">
-            <img src="https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"
-                alt="Luxury Perfume" class="h-64 object-contain rounded">
-            <p class="mt-2 font-semibold">Luxury Perfume</p>
-            <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+        <div class="productCard min-w-72 h-auto bg-white p-4 rounded-md shadow-md">
+            <img src="https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp"
+                alt=" Image of brown leather belt watch" class="h-64 object-contain rounded">
+            <p class="mt-2 font-semibold">Calvin Klein Limited Edition Series</p>
+            <div class="price flex gap-2">
+                <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+                <span class="text-[var(--secondary)] line-through ">₦57,000</span>
+            </div>
+        </div>
+        <!-- Product Card 1: Perfume -->
+        <div class="productCard min-w-72 h-auto bg-white p-4 rounded-md shadow-lg">
+            <img src="https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp"
+                alt="Image of Rolex Cellini Date" class="h-64 object-contain rounded">
+            <p class="mt-2 font-semibold">Rolex Cellini Date Black</p>
+            <div class="price flex gap-2">
+                <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+                <span class="text-[var(--secondary)] line-through ">₦57,000</span>
+            </div>
         </div>
         <!-- Product Card 1: Perfume -->
         <div class="productCard min-w-72 h-auto bg-white p-4 rounded-sm shadow-lg">
-            <img src="https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"
-                alt="Luxury Perfume" class="h-64 object-contain rounded">
-            <p class="mt-2 font-semibold">Luxury Perfume</p>
-            <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+            <img src="https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp"
+                alt="Image of Rolex Cellini Moonphase" class="h-64 object-contain rounded">
+            <p class="mt-2 font-semibold"> Rolex Cellini Moonphase </p>
+            <div class="price flex gap-2">
+                <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+                <span class="text-[var(--secondary)] line-through ">₦57,000</span>
+            </div>
         </div>
         <!-- Product Card 1: Perfume -->
         <div class="productCard min-w-72 h-auto bg-white p-4 rounded-sm shadow-lg">
-            <img src="https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"
-                alt="Luxury Perfume" class="h-64 object-contain rounded">
-            <p class="mt-2 font-semibold">Luxury Perfume</p>
-            <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
-        </div>
-        <!-- Product Card 1: Perfume -->
-        <div class="productCard min-w-72 h-auto bg-white p-4 rounded-sm shadow-lg">
-            <img src="https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp"
-                alt="Luxury Perfume" class="h-64 object-contain rounded">
-            <p class="mt-2 font-semibold">Luxury Perfume</p>
-            <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+            <img src="https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp"
+                alt="Image of Apple Watch Series 4" class="h-64 object-contain rounded">
+            <p class="mt-2 font-semibold">Apple Watch Series 4</p>
+            <div class="price flex gap-2">
+                <span class="text-accent font-bold text-[var(--accent)]">₦45,000</span>
+                <span class="text-[var(--secondary)] line-through ">₦57,000</span>
+            </div>
         </div>
     </div>
 
-    <center class="text-xl bg-[var(--primary)] p-4  font-bold mt-2 text-[var(--highlight)]">FRAGNACES</center>
-    <div class="Fragrances ">
+<div class="prodcuctDisplay">
+    <!-- FRAGRANCES DISPLAY -->
+    <center class="text-xl bg-[var(--primary)] p-4 px-10 font-bold mt-2 text-[var(--highlight)]">FRAGNACES</center>
+    <section id="fragrances"
+        class="fragrances flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar w-full">
+        <!-- JS injects product cards here -->
+    </section>
 
-    </div>
+    <br>
+    
+    <center class="text-xl bg-[var(--primary)] p-4 font-bold mt-2 text-[var(--highlight)]">LAPTOPS</center>
+    <section id="laptops"
+        class="laptops flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar w-full">
+        <!-- JS injects product cards here -->
+    </section>
+    
+    <center class="text-xl bg-[var(--primary)] p-4  font-bold mt-2 text-[var(--highlight)]">KITCHEN ACCESSORIES</center>
+    <section id="kitchen-accessories"
+        class="kitchen-accessories flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar w-full">
+        <!-- JS injects product cards here -->
+    </section>
+
+    <center class="text-xl bg-[var(--primary)] p-4  font-bold mt-2 text-[var(--highlight)]">FURNITURE</center>
+    <section id="furniture"
+        class="furniture flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar w-full">
+        <!-- JS injects product cards here -->
+    </section>
+</div>
     </div>
     <script src="/js/script.js"></script>
 </body>

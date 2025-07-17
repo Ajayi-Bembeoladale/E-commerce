@@ -1,6 +1,8 @@
 @import "tailwindcss";
+html{
+    scroll-behavior: smooth;
+}
 :root {
-  --white: #fff;
   --black: #000;
   --lightBulue: #17a;
   --secondary: #6c757d;
@@ -8,6 +10,13 @@
   --highlight: #f5f5f5;
   --white: #faf9f6;
   --accent: #7ed957;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .marquee {
   animation: scroll 35s linear infinite;
@@ -18,16 +27,16 @@
 
 @keyframes scroll {
   from {
-      transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 
   to {
-      transform: translateX(100%);
+    transform: translateX(100%);
   }
 }
-.productCard{
-    transition: transform 0.2s ;
+.productCard {
+  transition: transform 0.2s;
 }
-.productCard:hover{
-     transform: translateY(-2px);
+.productCard:hover {
+  transform: translateY(-4px);
 }

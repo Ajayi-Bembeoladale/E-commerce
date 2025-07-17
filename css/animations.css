@@ -1,0 +1,63 @@
+.successful {
+  background-color: green;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  position: absolute;
+  margin-bottom: 500px;
+  row-gap: 5px;
+  display: none;
+  animation-name: animateSuccessful;
+  animation-duration: 0.5s;
+}
+
+.unsuccessful {
+  background-color: red;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  position: absolute;
+  margin-bottom: 500px;
+  row-gap: 5px;
+  display: none;
+  animation-name: animateUnsucessful;
+  animation-duration: 0.5s;
+}
+
+@keyframes animateSuccessful {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animateUnsucessful {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  75% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
