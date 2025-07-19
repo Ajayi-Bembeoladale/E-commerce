@@ -128,23 +128,22 @@ document.getElementById("prevBtn").addEventListener("click", () => {
 //                    GENERAL SCRIPT.JS
 // =========================================================
 
-
 let allProducts = [];
-let price = []
+let price = [];
 async function getProducts() {
   try {
-    let response = await fetch("https://dummyjson.com/products?limit=1000");
+    let response = await fetch("https://dummyjson.com/products?limit=0");
 
     if (!response.ok) {
       throw new Error(`Error found ${response.status}`);
     }
-     
+
     const data = await response.json();
     //Push all products into the named array
     allProducts = data.products;
-    price = `₦${data.products.price * 1500 .toLocaleString()} + `
+
     // displayItems(allProducts);
-    console.log(data);
+    console.log(data.products);
     // console.log(productList);
   } catch (err) {
     console.error(err);
@@ -165,11 +164,13 @@ function displayItems(products, section = document.body) {
       ? product.images[0]
       : "./images/templateImg.jpg";
 
+    let nairaPrice = `₦${(product.price * 1500).toLocaleString()}`;
+
     cards.innerHTML = `
-      <img class="country-flag" src="${imageUrl}" alt="Image of ${product.title}" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
-      <div class="country-info">
+      <img class="product-image" src="${imageUrl}" alt="Image of ${product.title}" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
+      <div class="product-title">
         <h2>${product.title}</h2>
-        <p class="text-[var(--accent)]"><strong>Price:</strong> $${price}</p>
+        <p class="text-[var(--accent)]"><strong>Price:</strong> ${nairaPrice}</p>
         <p><strong>Number of Products Left:</strong> ${product.stock}</p>
       </div>
     `;
@@ -200,41 +201,116 @@ async function fetchByCategory(category, section) {
   // Display where ?
 }
 
-const fragranceDisplay = document.querySelector(".fragrances");
-const laptopsDisplay = document.querySelector(".laptops");
-const kitchenAccessoriesDisplay = document.querySelector(".kitchen-accessories");
-const furnitureDisplay = document.querySelector(".furniture");
-fetchByCategory("fragrances", fragranceDisplay);
-fetchByCategory("laptops", laptopsDisplay);
-fetchByCategory("kitchen-accessories", kitchenAccessoriesDisplay);
-fetchByCategory("furniture", furnitureDisplay);
+// =========================================================
+//                     Display Sections
+// =========================================================
 
+async function displaySections() {
+  try {
+    // Fetch all categories
+    const res = await fetch("https://dummyjson.com/products/categories");
+    const categories = await res.json();
+    console.log(categories);
+    // Shuffle the categories to make them random each time
+    categories.sort(() => Math.random() - 0.5);
 
+    // Find the container where you want to inject all category sections
+    const productContainer = document.querySelector(".productDisplay");
+    productContainer.innerHTML = ""; // Clear any existing content
 
+    // Loop through each category and create its section
+    for (const category of categories) {
+      // Create and append the category title
+      const center = document.createElement("center");
+      center.className =
+        "text-xl bg-[var(--primary)] p-4 px-10 font-bold mt-2 text-[var(--highlight)] rounded-sm";
+      center.textContent = category.slug.toUpperCase();
+
+      // Create wrapper for arrows + scrollable section
+      const wrapper = document.createElement("div");
+      wrapper.className = "relative w-full flex items-center";
+
+      // Create left arrow
+      const leftArrow = document.createElement("button");
+      leftArrow.innerHTML = `<button id="prevBtn"
+                        class="absolute left-4 top-1/2 text-2xl -translate-y-1/2 bg-white p-2 rounded-full shadow text-black z-10">&#10094;</button>`;
+      // Create right arrow
+      const rightArrow = document.createElement("button");
+      rightArrow.innerHTML = `<button id="nextBtn"
+                        class="absolute right-4 text-2xl top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow text-black z-10">
+                        &#10095;</button>`;
+
+      // Arrow button functionality
+      leftArrow.onclick = () => {
+        section.scrollBy({ left: -300, behavior: "smooth" });
+      };
+
+      rightArrow.onclick = () => {
+        section.scrollBy({ left: 300, behavior: "smooth" });
+      };
+
+      // Create the section for products
+      const section = document.createElement("section");
+      section.id = `${category}Display`;
+      section.className = `${category} flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
+
+      wrapper.appendChild(leftArrow);
+      wrapper.appendChild(section);
+      wrapper.appendChild(rightArrow);
+      // Append to the container
+      productContainer.appendChild(center);
+      productContainer.appendChild(wrapper);
+
+      // Fetch and display products for this category
+      fetchByCategory(category.slug, section);
+    }
+  } catch (err) {
+    console.error("Failed to display sections:", err);
+  }
+}
+
+// Call this after DOM is loaded
+document.addEventListener("DOMContentLoaded", function() {
+  displaySections();
+});
 
 // =========================================================
 //                     Search Function
 // =========================================================
 
-let input = document.getElementById("search").value.trim().toLowerCase();
-(async function SearchProducts() {
+let searchInput = document.getElementById("search");
+const results = document.getElementById("results");
+async function searchProducts(query) {
   try {
     let response = await fetch(
-      `https://dummyjson.com/products/search?q=${input}`
+      `https://dummyjson.com/products/search?q=${query}`
     );
     if (!response.ok) {
       throw new Error(`Error found ${response.status}`);
     }
     const data = await response.json();
-    displayItems(data.products, section);
+
+    let main = document.getElementById("main");
+
+    main.style.display = "none";
+    results.style.display = "flex";
+
+    //display Products
+    displayItems(data.products, results);
   } catch (err) {
     console.error(err);
   }
-}) 
-input.addEventListener(KeyboardEvent(cntrl + s),// activate searchbar to start typing)
-input.addEventListener(enter,SearchProducts());
+}
 
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    const query = searchInput.value.trim().toLowerCase();
+    if (query) searchProducts(query);
+  }
+});
+// searchInput.addEventListener("input", function (e) {
 
-fetch("https://dummyjson.com/products/categories")
-  .then((res) => res.json())
-  .then(console.log);
+//     const query = searchInput.value.trim().toLowerCase();
+//     if (query) searchProducts(query);
+
+// });
