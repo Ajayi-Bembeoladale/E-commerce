@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
 :root {
   --white: #fff;
   --black: #000;
@@ -16,7 +17,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-    
+
 }
 
 body {
@@ -26,18 +27,8 @@ body {
   min-height: 100vh;
   overflow: hidden;
 }
-.authentication {
-  display: none;
-}
 
 
-#bank-interface {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
-}
 
 button {
   width: 100%;
@@ -68,7 +59,7 @@ button:hover {
   overflow: hidden;
   margin-top: 60px;
   margin-left: 25%;
-
+  backdrop-filter: blur(10px);
 }
 
 .wrapper .form-box {
@@ -142,8 +133,8 @@ button:hover {
   transition: 0.5s;
 }
 
-.input-box input:focus ~ label,
-.input-box input:valid ~ label {
+.input-box input:focus~label,
+.input-box input:valid~label {
   top: -5px;
   color: var(--lightBulue);
 }
@@ -157,30 +148,10 @@ button:hover {
   transition: 0.5s;
 }
 
-.input-box input:focus ~ i,
-.input-box input:valid ~ i {
+.input-box input:focus~i,
+.input-box input:valid~i {
   color: var(--lightBulue);
 }
-
-/* form button {
-    width: 100%;
-    height: 45px;
-    background-color: var(--black);
-    color: var(--white);
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: .3s;
-}
-
-form button:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-} */
-
-/* bzh */
 
 .btn-container {
   padding: 20px;
@@ -271,6 +242,7 @@ form .linkTxt {
   transition: 0.7s ease;
   transition-delay: calc(0.1s * var(--i));
 }
+
 .wrapper .rotate-bg {
   position: absolute;
   top: -4px;
@@ -359,6 +331,7 @@ form .linkTxt {
 }
 
 @keyframes animate {
+
   40%,
   60% {
     left: calc(100% + 4px);
@@ -385,34 +358,25 @@ form .linkTxt {
   background: url(../img/12499722.png);
   background-size: cover;
 }
+
 .msg {
   text-align: center;
   font-weight: bold;
   font-size: 1rem;
   transition: all 0.3s ease;
   margin-top: 55px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgb(212, 198, 198);
+  width: 500px;
+  text-align: center;
+  margin-left: 33%;
+
 }
 
-/* Transition Text Styling */
-.transition-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 64px;
-  font-weight: 800;
-  color: var(--white);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  z-index: 2;
-}
 
-/* Show the transition text */
-.show-transition-text {
-  opacity: 1;
-  visibility: visible;
-}
+
+
 
 /* Transition Text Styling */
 .transition-text {
@@ -434,10 +398,12 @@ form .linkTxt {
 
   visibility: visible;
 }
+
 .wrapper .form-box,
 .wrapper .info-text {
   transition: opacity 0.5s ease-in-out;
 }
+
 r .profile-section:hover #profile-dropdown {
   display: block !important;
 }

@@ -79,9 +79,22 @@ class swiftly {
     if (username && password) {
       if (this.users.some((user) => user.username === username)) {
         this.msgBox.textContent = "Username already exists.";
-        this.msgBox.style.color = "red";
+        this.msgBox.style.color = "#fff";
+        this.msgBox.style.backgroundColor = "#e74c3c";
+        this.msgBox.style.padding = "10px 15px";
+        this.msgBox.style.borderRadius = "5px";
+        this.msgBox.style.fontWeight = "bold";
+        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+        this.msgBox.style.marginTop = "20px";
+        this.msgBox.style.transition = "all 0.3s ease";
         return;
       }
+      setTimeout(() => {
+        this.msgBox.textContent = "";
+        this.msgBox.style.backgroundColor = "transparent";
+        this.msgBox.style.boxShadow = "none";
+      },1000);
+
 
       const userId = this.generateUniqueId();
       const accountnumber = this.generateUserNumber();
@@ -91,8 +104,16 @@ class swiftly {
 
       this.msgBox.textContent = "Sign Up Successful! Please login.";
       this.msgBox.style.color = "green";
+      this.msgBox.style.backgroundColor = "green";
+        this.msgBox.style.padding = "10px 15px";
+        this.msgBox.style.borderRadius = "5px";
+        this.msgBox.style.fontWeight = "bold";
+        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+        this.msgBox.style.marginTop = "20px";
+        this.msgBox.style.transition = "all 1.7s ease";
       this.showLoginForm(e);
-    } else {
+    } 
+    else {
       this.msgBox.textContent = "Please fill in both fields.";
       this.msgBox.style.color = "red";
     }
@@ -114,12 +135,20 @@ class swiftly {
       this.accountnmDisplay.textContent = foundUser.accountnumber;
 
       $("#authentication").hide();
+      $("#warning").hide();
       $(".swiftly").show();
 
       localStorage.setItem("loggedInUser", enteredUsername);
     } else {
-      this.msgBox.textContent = "Invalid username or password.";
-      this.msgBox.style.color = "red";
+      this.msgBox.textContent = "invalid username or password.";
+      this.msgBox.style.color = "#fff";
+        this.msgBox.style.backgroundColor = "#e74c3c";
+        this.msgBox.style.padding = "10px 15px";
+        this.msgBox.style.borderRadius = "5px";
+        this.msgBox.style.fontWeight = "bold";
+        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+        this.msgBox.style.marginTop = "20px";
+        this.msgBox.style.transition = "all 0.3s ease";
     }
   }
 
@@ -153,7 +182,7 @@ class swiftly {
     if (this.users.length > 0) {
       const lastUser = this.users[this.users.length - 1];
       this.loginUsername.value = lastUser.username;
-    }setInterval(5000, displayStoredUsername())
+    } setInterval(5000, displayStoredUsername())
   }
 }
 
