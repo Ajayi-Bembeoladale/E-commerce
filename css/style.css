@@ -371,12 +371,68 @@ form .linkTxt {
   width: 500px;
   text-align: center;
   margin-left: 33%;
-
 }
 
 
 
 
+@keyframes animateSuccessful {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animateUnsucessful {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  75% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+
+.welcome{
+  color: #e0091b;
+  margin-top: 25%;
+  margin-left: 40%;
+   text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin-top: 20%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgb(212, 198, 198);
+  width: 500px;
+  text-align: center;
+  margin-left: 33%;
+  background-color: #007bff;
+}
 
 /* Transition Text Styling */
 .transition-text {

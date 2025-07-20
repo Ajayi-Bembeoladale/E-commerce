@@ -33,10 +33,13 @@ class swiftly {
   init() {
     this.registerLink.onclick = (e) => this.showRegisterForm(e);
     this.loginLink.onclick = (e) => this.showLoginForm(e);
-    document.getElementById("signUpForm").onsubmit = (e) => this.handleSignUp(e);
+    document.getElementById("signUpForm").onsubmit = (e) =>
+      this.handleSignUp(e);
     document.getElementById("loginForm").onsubmit = (e) => this.handleLogin(e);
-    document.getElementById("toggle").onclick = () => this.togglePasswordVisibility();
-    document.getElementById("profile-btn").onclick = () => this.toggleProfileDropdown();
+    document.getElementById("toggle").onclick = () =>
+      this.togglePasswordVisibility();
+    document.getElementById("profile-btn").onclick = () =>
+      this.toggleProfileDropdown();
     this.displayStoredUsername();
   }
 
@@ -77,6 +80,7 @@ class swiftly {
     const password = this.signupPassword.value.trim();
 
     if (username && password) {
+
       if (this.users.some((user) => user.username === username)) {
         this.msgBox.textContent = "Username already exists.";
         this.msgBox.style.color = "#fff";
@@ -87,13 +91,27 @@ class swiftly {
         this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
         this.msgBox.style.marginTop = "20px";
         this.msgBox.style.transition = "all 0.3s ease";
+        this.msgBox.style.animation = "animateUnsucessful 0.5s";
+        this.msgBox.style.display = "block";
         return;
       }
-      setTimeout(() => {
-        this.msgBox.textContent = "";
-        this.msgBox.style.backgroundColor = "transparent";
-        this.msgBox.style.boxShadow = "none";
-      },1000);
+
+
+      if (this.users.some((user) => user.password === password)) {
+        this.msgBox.textContent = "password already exists.";
+        this.msgBox.style.color = "#fff";
+        this.msgBox.style.backgroundColor = "#e74c3c";
+        this.msgBox.style.padding = "10px 15px";
+        this.msgBox.style.borderRadius = "5px";
+        this.msgBox.style.fontWeight = "bold";
+        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+        this.msgBox.style.marginTop = "20px";
+        this.msgBox.style.transition = "all 0.3s ease";
+        this.msgBox.style.animation = "animateUnsucessful 0.5s";
+        this.msgBox.style.display = "block";
+
+        return;
+      }
 
 
       const userId = this.generateUniqueId();
@@ -103,20 +121,29 @@ class swiftly {
       this.saveUsersToLocalStorage();
 
       this.msgBox.textContent = "Sign Up Successful! Please login.";
-      this.msgBox.style.color = "green";
       this.msgBox.style.backgroundColor = "green";
-        this.msgBox.style.padding = "10px 15px";
-        this.msgBox.style.borderRadius = "5px";
-        this.msgBox.style.fontWeight = "bold";
-        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-        this.msgBox.style.marginTop = "20px";
-        this.msgBox.style.transition = "all 1.7s ease";
+      this.msgBox.style.padding = "10px 15px";
+      this.msgBox.style.borderRadius = "5px";
+      this.msgBox.style.fontWeight = "bold";
+      this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+      this.msgBox.style.marginTop = "20px";
+      this.msgBox.style.transition = "all 1.7s ease";
+      this.msgBox.style.animation = "animateSuccessful 0.5s";
+      this.msgBox.style.display = "block";
       this.showLoginForm(e);
-    } 
+    }
+
     else {
       this.msgBox.textContent = "Please fill in both fields.";
       this.msgBox.style.color = "red";
+      this.msgBox.style.display = "block";
     }
+ this.msgBox.style.display = "";
+    setTimeout(() => {
+      this.msgBox.textContent = "";
+      this.msgBox.style.backgroundColor = "";
+      this.msgBox.style.display = "none";
+    }, 1000);
   }
 
   handleLogin(e) {
@@ -125,7 +152,8 @@ class swiftly {
     const enteredPassword = this.loginPassword.value.trim();
 
     const foundUser = this.users.find(
-      (user) => user.username === enteredUsername && user.password === enteredPassword
+      (user) =>
+        user.username === enteredUsername && user.password === enteredPassword
     );
 
     if (foundUser) {
@@ -142,14 +170,20 @@ class swiftly {
     } else {
       this.msgBox.textContent = "invalid username or password.";
       this.msgBox.style.color = "#fff";
-        this.msgBox.style.backgroundColor = "#e74c3c";
-        this.msgBox.style.padding = "10px 15px";
-        this.msgBox.style.borderRadius = "5px";
-        this.msgBox.style.fontWeight = "bold";
-        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-        this.msgBox.style.marginTop = "20px";
-        this.msgBox.style.transition = "all 0.3s ease";
+      this.msgBox.style.backgroundColor = "#e74c3c";
+      this.msgBox.style.padding = "10px 15px";
+      this.msgBox.style.borderRadius = "5px";
+      this.msgBox.style.fontWeight = "bold";
+      this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+      this.msgBox.style.marginTop = "30px";
+      this.msgBox.style.transition = "all 0.3s ease";
+      this.msgBox.style.animation = "animateUnsucessful 0.5s";
     }
+    setTimeout(() => {
+      this.msgBox.textContent = "";
+      this.msgBox.style.backgroundColor = "transparent";
+      this.msgBox.style.boxShadow = "none";
+    }, 2000);
   }
 
   togglePasswordVisibility() {
@@ -167,7 +201,8 @@ class swiftly {
 
   toggleProfileDropdown() {
     const dropdown = document.getElementById("#profile-dropdown");
-    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    dropdown.style.display =
+      dropdown.style.display === "none" ? "block" : "none";
   }
 
   getUsersFromLocalStorage() {
@@ -182,7 +217,8 @@ class swiftly {
     if (this.users.length > 0) {
       const lastUser = this.users[this.users.length - 1];
       this.loginUsername.value = lastUser.username;
-    } setInterval(5000, displayStoredUsername())
+    }
+    setInterval(5000, displayStoredUsername());
   }
 }
 
