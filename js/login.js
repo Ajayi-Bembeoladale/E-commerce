@@ -23,8 +23,8 @@ class swiftly {
     this.messageDisplay = document.querySelector("#current-username");
     this.messageDisplay2 = document.querySelector("#profile-username");
     this.accountnmDisplay = document.querySelector("#profile-user-number");
-
     this.msgBox = document.querySelector(".msg");
+    this.mainPage = document.getElementById('swiftly')
 
     this.users = this.getUsersFromLocalStorage();
     this.init();
@@ -130,13 +130,17 @@ class swiftly {
 
     if (foundUser) {
       this.msgBox.textContent = "";
-      this.messageDisplay.textContent = `${enteredUsername}!`;
       this.messageDisplay2.textContent = enteredUsername;
       this.accountnmDisplay.textContent = foundUser.accountnumber;
+      this.messageDisplay.textContent = `Welcome, ${enteredUsername}!`;
 
       $("#authentication").hide();
       $("#warning").hide();
       $(".swiftly").show();
+      setTimeout(()=>{
+        this.messageDisplay.style.display ="none"
+        this.mainPage.style.display = "block"
+      },2000)
 
       localStorage.setItem("loggedInUser", enteredUsername);
     } else {
