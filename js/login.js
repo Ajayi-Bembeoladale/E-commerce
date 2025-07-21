@@ -74,45 +74,43 @@ class swiftly {
     return Date.now().toString();
   }
 
+  showMessage(text, backgroundColor) {
+    this.msgBox.textContent = text;
+    this.msgBox.style.backgroundColor = backgroundColor;
+    this.msgBox.style.color = "#fff";
+    this.msgBox.style.padding = "10px 15px";
+    this.msgBox.style.borderRadius = "5px";
+    this.msgBox.style.fontWeight = "bold";
+    this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
+    this.msgBox.style.marginTop = "20px";
+    this.msgBox.style.transition = "all 0.3s ease";
+    this.msgBox.style.animation = backgroundColor === "green" ? "animateSuccessful 0.5s" : "animateUnsucessful 0.5s";
+
+    this.msgBox.classList.add("show");
+
+    if (this.msgTimeout) clearTimeout(this.msgTimeout);
+    this.msgTimeout = setTimeout(() => {
+      this.msgBox.textContent = "";
+      this.msgBox.style.backgroundColor = "";
+      this.msgBox.classList.remove("show");
+    }, 2000);
+  }
+
   handleSignUp(e) {
     e.preventDefault();
     const username = this.signupUsername.value.trim();
     const password = this.signupPassword.value.trim();
 
     if (username && password) {
-
       if (this.users.some((user) => user.username === username)) {
-        this.msgBox.textContent = "Username already exists.";
-        this.msgBox.style.color = "#fff";
-        this.msgBox.style.backgroundColor = "#e74c3c";
-        this.msgBox.style.padding = "10px 15px";
-        this.msgBox.style.borderRadius = "5px";
-        this.msgBox.style.fontWeight = "bold";
-        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-        this.msgBox.style.marginTop = "20px";
-        this.msgBox.style.transition = "all 0.3s ease";
-        this.msgBox.style.animation = "animateUnsucessful 0.5s";
-        this.msgBox.style.display = "block";
+        this.showMessage("Username already exists.", "#e74c3c");
         return;
       }
-
 
       if (this.users.some((user) => user.password === password)) {
-        this.msgBox.textContent = "password already exists.";
-        this.msgBox.style.color = "#fff";
-        this.msgBox.style.backgroundColor = "#e74c3c";
-        this.msgBox.style.padding = "10px 15px";
-        this.msgBox.style.borderRadius = "5px";
-        this.msgBox.style.fontWeight = "bold";
-        this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-        this.msgBox.style.marginTop = "20px";
-        this.msgBox.style.transition = "all 0.3s ease";
-        this.msgBox.style.animation = "animateUnsucessful 0.5s";
-        this.msgBox.style.display = "block";
-
+        this.showMessage("Password already exists.", "#e74c3c");
         return;
       }
-
 
       const userId = this.generateUniqueId();
       const accountnumber = this.generateUserNumber();
@@ -120,30 +118,11 @@ class swiftly {
       this.users.push(newUser);
       this.saveUsersToLocalStorage();
 
-      this.msgBox.textContent = "Sign Up Successful! Please login.";
-      this.msgBox.style.backgroundColor = "green";
-      this.msgBox.style.padding = "10px 15px";
-      this.msgBox.style.borderRadius = "5px";
-      this.msgBox.style.fontWeight = "bold";
-      this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-      this.msgBox.style.marginTop = "20px";
-      this.msgBox.style.transition = "all 1.7s ease";
-      this.msgBox.style.animation = "animateSuccessful 0.5s";
-      this.msgBox.style.display = "block";
+      this.showMessage("Sign Up Successful! Please login.", "green");
       this.showLoginForm(e);
+    } else {
+      this.showMessage("Please fill in both fields.", "#e74c3c");
     }
-
-    else {
-      this.msgBox.textContent = "Please fill in both fields.";
-      this.msgBox.style.color = "red";
-      this.msgBox.style.display = "block";
-    }
- this.msgBox.style.display = "";
-    setTimeout(() => {
-      this.msgBox.textContent = "";
-      this.msgBox.style.backgroundColor = "";
-      this.msgBox.style.display = "none";
-    }, 1000);
   }
 
   handleLogin(e) {
@@ -168,22 +147,8 @@ class swiftly {
 
       localStorage.setItem("loggedInUser", enteredUsername);
     } else {
-      this.msgBox.textContent = "invalid username or password.";
-      this.msgBox.style.color = "#fff";
-      this.msgBox.style.backgroundColor = "#e74c3c";
-      this.msgBox.style.padding = "10px 15px";
-      this.msgBox.style.borderRadius = "5px";
-      this.msgBox.style.fontWeight = "bold";
-      this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-      this.msgBox.style.marginTop = "30px";
-      this.msgBox.style.transition = "all 0.3s ease";
-      this.msgBox.style.animation = "animateUnsucessful 0.5s";
+      this.showMessage("Invalid username or password.", "#e74c3c");
     }
-    setTimeout(() => {
-      this.msgBox.textContent = "";
-      this.msgBox.style.backgroundColor = "transparent";
-      this.msgBox.style.boxShadow = "none";
-    }, 2000);
   }
 
   togglePasswordVisibility() {
@@ -225,3 +190,4 @@ class swiftly {
 $(document).ready(function () {
   const Swiftly = new swiftly();
 });
+

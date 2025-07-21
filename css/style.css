@@ -47,7 +47,9 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
+#authentication{
+  margin-top: 7%;
+}
 .wrapper {
   position: relative;
   width: 750px;
@@ -57,7 +59,7 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 0 20px var(--black);
   overflow: hidden;
-  margin-top: 60px;
+  margin-bottom: 8%px;
   margin-left: 25%;
   backdrop-filter: blur(10px);
 }
@@ -371,7 +373,17 @@ form .linkTxt {
   width: 500px;
   text-align: center;
   margin-left: 33%;
+  display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
 }
+
+
+  .msg.show {
+    display: block;
+    opacity: 1;
+  }
 
 
 
