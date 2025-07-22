@@ -24,7 +24,7 @@ class swiftly {
     this.messageDisplay2 = document.querySelector("#profile-username");
     this.accountnmDisplay = document.querySelector("#profile-user-number");
     this.msgBox = document.querySelector(".msg");
-    this.mainPage = document.getElementById('swiftly')
+    this.mainPage = document.querySelector(".swiftly");
 
     this.users = this.getUsersFromLocalStorage();
     this.init();
@@ -38,9 +38,10 @@ class swiftly {
     document.getElementById("loginForm").onsubmit = (e) => this.handleLogin(e);
     document.getElementById("toggle").onclick = () =>
       this.togglePasswordVisibility();
-    document.getElementById("profile-btn").onclick = () =>
-      this.toggleProfileDropdown();
-    this.displayStoredUsername();
+    const profileBtn = document.getElementById("profile-btn");
+    if (profileBtn) {
+      profileBtn.onclick = () => this.toggleProfileDropdown();
+    }
   }
 
   showTransitionText() {
@@ -96,30 +97,6 @@ class swiftly {
     }, 2000);
   }
 
-  handleSignUp(e) {
-    e.preventDefault();
-    const username = this.signupUsername.value.trim();
-    const password = this.signupPassword.value.trim();
-
-    if (username && password) {
-      if (this.users.some((user) => user.username === username)) {
-        this.showMessage("Username already exists.", "#e74c3c");
-        return;
-      }
-
-      const userId = this.generateUniqueId();
-      const accountnumber = this.generateUserNumber();
-      const newUser = new User(userId, username, password, accountnumber);
-      this.users.push(newUser);
-      this.saveUsersToLocalStorage();
-
-      this.showMessage("Sign Up Successful! Please login.", "green");
-      this.showLoginForm(e);
-    } else {
-      this.showMessage("Please fill in both fields.", "#e74c3c");
-    }
-  }
-
   handleLogin(e) {
     e.preventDefault();
     const enteredUsername = this.loginUsername.value.trim();
@@ -139,10 +116,18 @@ class swiftly {
       $("#authentication").hide();
       $("#warning").hide();
       $(".swiftly").show();
-      setTimeout(()=>{
-        this.messageDisplay.style.display ="none"
-        this.mainPage.style.display = "block"
-      },2000)
+      console.log("Login successful, showing welcome message for", enteredUsername);
+      setTimeout(() => {
+        console.log("Attempting redirect to index.html");
+        this.messageDisplay.style.display = "none";
+        this.mainPage.style.display = "block";
+        try {
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Redirect failed:", error);
+          this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
+        }
+      }, 2000);
 
       localStorage.setItem("loggedInUser", enteredUsername);
     } else {
@@ -164,7 +149,7 @@ class swiftly {
   }
 
   toggleProfileDropdown() {
-    const dropdown = document.getElementById("#profile-dropdown");
+    const dropdown = document.getElementById("profile-dropdown");
     dropdown.style.display =
       dropdown.style.display === "none" ? "block" : "none";
   }
@@ -176,17 +161,8 @@ class swiftly {
   saveUsersToLocalStorage() {
     localStorage.setItem("users", JSON.stringify(this.users));
   }
-
-  displayStoredUsername() {
-    if (this.users.length > 0) {
-      const lastUser = this.users[this.users.length - 1];
-      this.loginUsername.value = lastUser.username;
-    }
-    setInterval(5000, displayStoredUsername());
-  }
 }
 
 $(document).ready(function () {
   const Swiftly = new swiftly();
 });
-
