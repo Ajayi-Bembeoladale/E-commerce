@@ -107,11 +107,6 @@ class swiftly {
         return;
       }
 
-      if (this.users.some((user) => user.password === password)) {
-        this.showMessage("Password already exists.", "#e74c3c");
-        return;
-      }
-
       const userId = this.generateUniqueId();
       const accountnumber = this.generateUserNumber();
       const newUser = new User(userId, username, password, accountnumber);
