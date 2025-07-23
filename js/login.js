@@ -7,7 +7,7 @@ class User {
   }
 }
 
-class swiftly {
+class Swiftly {
   constructor() {
     this.wrapper = document.querySelector(".wrapper");
     this.registerLink = document.querySelector(".register-link");
@@ -19,6 +19,7 @@ class swiftly {
 
     this.signupUsername = document.getElementById("signup-username");
     this.signupPassword = document.getElementById("signup-password");
+    this.signupEmail = document.querySelector("#signUpForm input[type='email']");
 
     this.messageDisplay = document.querySelector("#current-username");
     this.messageDisplay2 = document.querySelector("#profile-username");
@@ -97,6 +98,44 @@ class swiftly {
     }, 2000);
   }
 
+  handleSignUp(e) {
+    e.preventDefault();
+    const username = this.signupUsername.value.trim();
+    const email = this.signupEmail.value.trim();
+    const password = this.signupPassword.value.trim();
+
+    // Check if username or email already exists
+    const userExists = this.users.some(
+      (user) => user.username === username || user.email === email
+    );
+
+    if (userExists) {
+      this.showMessage("Username or email already exists.", "#e74c3c");
+      return;
+    }
+
+    // Create new user
+    const newUser = new User(
+      this.generateUniqueId(),
+      username,
+      password,
+      this.generateUserNumber()
+    );
+    newUser.email = email; // Add email to user object
+    this.users.push(newUser);
+    this.saveUsersToLocalStorage();
+
+    this.showMessage("Sign-up successful! Please log in.", "green");
+
+    // Reset form and switch to login
+    this.signupUsername.value = "";
+    this.signupEmail.value = "";
+    this.signupPassword.value = "";
+    setTimeout(() => {
+      this.wrapper.classList.remove("active");
+    }, 2000);
+  }
+
   handleLogin(e) {
     e.preventDefault();
     const enteredUsername = this.loginUsername.value.trim();
@@ -104,19 +143,20 @@ class swiftly {
 
     const foundUser = this.users.find(
       (user) =>
-        user.username === enteredUsername && user.password === enteredPassword
+        user.username.toLowerCase() === enteredUsername.toLowerCase() &&
+        user.password === enteredPassword
     );
 
     if (foundUser) {
       this.msgBox.textContent = "";
-      this.messageDisplay2.textContent = enteredUsername;
+      this.messageDisplay2.textContent = foundUser.username;
       this.accountnmDisplay.textContent = foundUser.accountnumber;
-      this.messageDisplay.textContent = `Welcome, ${enteredUsername}!`;
+      this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
 
       $("#authentication").hide();
       $("#warning").hide();
       $(".swiftly").show();
-      console.log("Login successful, showing welcome message for", enteredUsername);
+      console.log("Login successful, showing welcome message for", foundUser.username);
       setTimeout(() => {
         console.log("Attempting redirect to index.html");
         this.messageDisplay.style.display = "none";
@@ -129,7 +169,7 @@ class swiftly {
         }
       }, 2000);
 
-      localStorage.setItem("loggedInUser", enteredUsername);
+      localStorage.setItem("loggedInUser", foundUser.username);
     } else {
       this.showMessage("Invalid username or password.", "#e74c3c");
     }
@@ -164,5 +204,5 @@ class swiftly {
 }
 
 $(document).ready(function () {
-  const Swiftly = new swiftly();
+  const swiftlyApp = new Swiftly();
 });
