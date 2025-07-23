@@ -598,7 +598,93 @@
 }
 
 
+/* Add to Cart*/
+.add-to-cart {
+  position: relative;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #34974d;
+  background-color: #3aa856;
+}
 
+.add-to-cart, .button__icon, .button__text {
+  transition: all 0.3s;
+}
+
+.add-to-cart .button__text {
+  transform: translateX(15px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.add-to-cart .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 39px;
+  background-color: #34974d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-to-cart .fa-cart-shopping {
+  width: 30px;
+  stroke: #fff;
+}
+
+.add-to-cart:hover {
+  background: #34974d;
+}
+
+.add-to-cart:hover .button__text {
+  color: transparent;
+}
+
+.add-to-cart:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.add-to-cart:active .button__icon {
+  background-color: #2e8644;
+}
+
+.add-to-cart:active {
+  border: 1px solid #2e8644;
+}
+
+/* cartBtn2 */
+/* From Uiverse.io by vinodjangid07 */ 
+.cart-btn{
+  transition-duration: .5s;
+}
+.cart-icon{
+  transform: translateX(-250px);
+    transition-duration: .5s;
+}
+.cart-txt{
+  transition-duration: .5s;
+  transform: translateX(-10px);
+}
+.cart-btn:hover .cart-icon {
+  transform: translateX(8px);
+  border-radius: 40px;
+  transition-duration: .5s;
+}
+
+.cart-btn:hover .cart-txt {
+  transform: translate(5px,0px);
+  transition-duration: .5s;
+}
+
+.cart-btn:active {
+  transform: scale(0.95);
+  transition-duration: .5s;
+}
 /* Order Validated */
 /* .card {
   overflow: hidden;

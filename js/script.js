@@ -40,26 +40,147 @@ function displayItems(products, section = document.body) {
       ? product.images[0]
       : "./images/templateImg.jpg";
 
-    let nairaPrice = `₦${(product.price * NAIRA_CONVERSION_RATE).toLocaleString()}`;
+    let nairaPrice = `₦${(
+      product.price * NAIRA_CONVERSION_RATE
+    ).toLocaleString()}`;
     let originalPrice;
     if (product.discountPercentage === 100) {
       originalPrice = "N/A";
     } else {
-      originalPrice = `₦${Math.round((product.price * NAIRA_CONVERSION_RATE) / (1 - product.discountPercentage / 100)).toLocaleString()}`;
+      originalPrice = `₦${Math.round(
+        (product.price * NAIRA_CONVERSION_RATE) /
+          (1 - product.discountPercentage / 100)
+      ).toLocaleString()}`;
     }
     cards.innerHTML = `
-      <!--<div class= "rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-${Math.round(product.discountPercentage)}%</div> -->
-      <img class="product-image" src="${imageUrl}" alt="Image of ${product.title}" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
+      <!--<div class= "rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-${Math.round(
+        product.discountPercentage
+      )}%</div> -->
+      <img class="product-image" src="${imageUrl}" alt="Image of ${
+      product.title
+    }" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
       <div class="product-title text-balance">
-        <h2 class="overflow-hidden text-ellipsis text-balance">${product.title}</h2>
+        <h2 class="overflow-hidden text-ellipsis text-balance">${
+          product.title
+        }</h2>
         <p class="text-[var(--accent)] text-xl font-semibold">${nairaPrice}</p>
         <p class = "text-md font-light text-[var(--secondary)] line-through ">${originalPrice}</p>
       </div>
     `;
 
+    //  Generate Random User's Profiles
+    cards.addEventListener("click", async () => {
+      const loader = document.getElementById("loader");
+      const container = document.getElementById("container");
+      container.style.display = "none";
+      
+      const reviews = product.reviews || [];
+      async function fetchRandomProfiles(count) {
+        const res = await fetch(
+          `https://randomuser.me/api/?results=${count}&nat=us,gb,ng`
+        );
+        const { results } = await res.json();
+        return results;
+      }
+      const profiles = await fetchRandomProfiles(reviews.length);
+      const reviewHTML = reviews
+        .map((review, i) => {
+          const prof = profiles[i];
+          const avatar = prof.picture.thumbnail;
+          const fullName = review.reviewerName;
+          const ratingStars =
+             "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+          const date = new Date(review.date).toLocaleDateString();
+
+          return `
+            <div class="review-card flex gap-3 items-start bg-[#F0F8FF] rounded-lg p-3">
+              <img src="${avatar}" alt="${fullName}" class="w-10 h-10 rounded-full border-2 border-[#AFFF00]" />
+              <div>
+                <span class="font-semibold text-[#0084F0]">${fullName}</span>
+                <span class="text-yellow-400 ml-2">${ratingStars}</span>
+                <p class="text-gray-700 text-sm mt-1">${review.comment}</p>
+                <span class="text-xs text-gray-400">${date}</span>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      const ProductInfoContainer = document.getElementById("productInfo");
+      ProductInfoContainer.style.display = "flex";
+     
+      ProductInfoContainer.innerHTML = `
+        <button class="back-btn px-6 py-4 text-gray-700 text-lg absolute top-3 left-6 rounded-md font-semibold" id="backToMain">&#10094; Back</button>
+
+        <div class="left flex flex-col md:flex-row p-1 gap-6 mt-12 justify-center overflow-hidden relative">
+          <i class="fa-regular fa-heart font-mono font-bold text-lg absolute top-0 right-4 text-[var(--accent)]"></i>
+
+          <div class="sub-left flex flex-col gap-8 items-center overflow-hidden w-full h-fit md:w-[29rem] p-4">
+        <div class="img relative">
+          <img src="${imageUrl}" alt="Image of ${
+        product.title
+      }" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
+          <span class="bg-lime-200 text-lime-500 absolute top-0 right-1 px-2 py-1 rounded text-xs font-semibold ml-2">${Math.round(
+            product.discountPercentage
+          )}% OFF</span>
+        </div>
+        <div class="rating flex justify-center items-center gap-2 mt-2">
+          <span class="text-xl text-yellow-400">★★★★☆</span>
+          <span class="text-gray-500 text-md">(234 ratings)</span>
+        </div>
+          </div>
+
+          <div class="subright flex flex-col gap-8 p-5 mt-1 flex-1">
+        <div class="productInfo flex flex-col gap-4">
+          <h2 class="productTitle text-2xl font-bold text-[#0084F0]">${
+            product.title
+          }</h2>
+          <p class="productDescription text-gray-700 text-sm text-wrap">${
+            product.description
+          }</p>
+        </div>
+
+        <div class="price flex gap-3 items-center">
+          <p class="text-2xl font-bold text-[#ace335]">${nairaPrice}</p>
+          <p class="line-through text-gray-400 text-md">${originalPrice}</p>
+        </div>
+
+        <div class="flex items-center justify-center gap-4 mt-6 ">
+          <button class="cart-btn flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-6 py-4 rounded-sm shadow-sm transition duration-150" id="addToCartBtn">
+            <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
+            <span class="text-center cart-txt">Add to Cart</span>
+          </button>
+        </div>
+          </div>
+        </div>
+
+        <div class="right w-full md:w-[45vw] bg-white rounded-lg shadow-md p-6 mt-8 md:mt-0 md:ml-8">
+          <h3 class="text-xl font-bold text-[#0084F0] mb-4">Customer Reviews</h3>
+          <div class="reviews flex flex-col gap-6">
+        ${reviewHTML}
+          </div>
+        </div>
+      `;
+
+      // Add event listener for the Add to Cart button
+      const addToCartBtn = document.getElementById("addToCartBtn");
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener("click", function () {
+          // Your add to cart logic here
+          alert(`Added "${product.title}" to cart!`);
+        });
+      }
+     const backbtn = document.getElementById('backToMain')
+        backbtn.addEventListener('click',()=>{
+        container.style.display = "block";
+        ProductInfoContainer.style.display= "none";
+      })
+    });
+
     section.appendChild(cards);
   });
 }
+
 async function fetchByCategory(category, section) {
   try {
     let response = await fetch(
@@ -91,8 +212,8 @@ async function displaySections() {
   const loader = document.getElementById("loader");
   loader.style.display = "block"; // Show loader
 
-  const main = document.getElementById('main');
-  main.style.display = "none"
+  const main = document.getElementById("main");
+  main.style.display = "none";
 
   try {
     // Fetch all categories
@@ -128,7 +249,9 @@ async function displaySections() {
         // Create the section for products
         const section = document.createElement("section");
         section.id = `${category.slug || category}Display`;
-        section.className = `${category.slug || category} flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
+        section.className = `${
+          category.slug || category
+        } flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
 
         // Arrow button functionality
         leftArrow.onclick = () => {
@@ -153,13 +276,12 @@ async function displaySections() {
   } finally {
     // Hide loader after all fetching and rendering is done
     loader.style.display = "none";
-    main.style.display = 'block'
+    main.style.display = "block";
   }
 }
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   displaySections();
 });
-
 
 // =========================================================
 //                     Search Function
@@ -203,7 +325,12 @@ searchInput.addEventListener("keydown", function (e) {
 
 // });
 document.addEventListener("DOMContentLoaded", () => {
-document.getElementById('sign-in').addEventListener('click',()=>{
-  window.location.href ="login.html"
-})
-})
+  document.getElementById("sign-in").addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+});
+
+// =========================================================
+//                        Some JS
+// =========================================================
+// The logic for attaching click listeners to product cards is now handled inside displayItems after cards are created.
