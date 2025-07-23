@@ -68,12 +68,14 @@ function displayItems(products, section = document.body) {
       </div>
     `;
 
-    //  Generate Random User's Profiles
+    //  Display Product Profiles
     cards.addEventListener("click", async () => {
       const loader = document.getElementById("loader");
       const container = document.getElementById("container");
       container.style.display = "none";
-      
+        const results = document.getElementById("results");
+        results.style.display = "none";
+
       const reviews = product.reviews || [];
       async function fetchRandomProfiles(count) {
         const res = await fetch(
@@ -89,7 +91,7 @@ function displayItems(products, section = document.body) {
           const avatar = prof.picture.thumbnail;
           const fullName = review.reviewerName;
           const ratingStars =
-             "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+            "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
           const date = new Date(review.date).toLocaleDateString();
 
           return `
@@ -108,7 +110,6 @@ function displayItems(products, section = document.body) {
 
       const ProductInfoContainer = document.getElementById("productInfo");
       ProductInfoContainer.style.display = "flex";
-     
       ProductInfoContainer.innerHTML = `
         <button class="back-btn px-6 py-4 text-gray-700 text-lg absolute top-3 left-6 rounded-md font-semibold" id="backToMain">&#10094; Back</button>
 
@@ -144,7 +145,11 @@ function displayItems(products, section = document.body) {
           <p class="text-2xl font-bold text-[#ace335]">${nairaPrice}</p>
           <p class="line-through text-gray-400 text-md">${originalPrice}</p>
         </div>
-
+          <div class="itemsLeft mt-4 text-gray-600 text-md">
+                    <span class="font-semibold text-[#0084F0]">${
+                      product.stock
+                    }</span> Items Left
+                </div>
         <div class="flex items-center justify-center gap-4 mt-6 ">
           <button class="cart-btn flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-6 py-4 rounded-sm shadow-sm transition duration-150" id="addToCartBtn">
             <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
@@ -170,11 +175,15 @@ function displayItems(products, section = document.body) {
           alert(`Added "${product.title}" to cart!`);
         });
       }
-     const backbtn = document.getElementById('backToMain')
-        backbtn.addEventListener('click',()=>{
-        container.style.display = "block";
-        ProductInfoContainer.style.display= "none";
-      })
+      let backbtn = document.querySelectorAll(".back-btn");
+      backbtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          container.style.display = "block";
+          const results = document.getElementById("results");
+          results.style.display = "none";
+          ProductInfoContainer.style.display = "none";
+        });
+      });
     });
 
     section.appendChild(cards);
@@ -248,7 +257,7 @@ async function displaySections() {
 
         // Create the section for products
         const section = document.createElement("section");
-        section.id = `${category.slug || category}Display`;
+        section.id = `${category.slug || category}-section`;
         section.className = `${
           category.slug || category
         } flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
@@ -290,6 +299,9 @@ document.addEventListener("DOMContentLoaded", function () {
 let searchInput = document.getElementById("search");
 const results = document.getElementById("results");
 async function searchProducts(query) {
+  const loader = document.getElementById("loader");
+  loader.style.display = "block"; // Show loader
+
   try {
     let response = await fetch(
       `https://dummyjson.com/products/search?q=${query}`
@@ -299,15 +311,17 @@ async function searchProducts(query) {
     }
     const data = await response.json();
 
-    let main = document.getElementById("main");
-
+    const main = document.getElementById("container");
+    const products = document.querySelector('.search-items');
     main.style.display = "none";
     results.style.display = "flex";
 
-    //display Products
-    displayItems(data.products, results);
+    // Display Products
+    displayItems(data.products, products);
   } catch (err) {
     console.error(err);
+  } finally {
+    loader.style.display = "none"; // Hide loader after rendering
   }
 }
 
