@@ -2,7 +2,7 @@
 //                    GENERAL SCRIPT.JS
 // =========================================================
 
-const NAIRA_CONVERSION_RATE = 1500; // USD to NGN conversion rate
+const NAIRA_CONVERSION_RATE = 1534.75; // USD to NGN conversion rate
 
 let allProducts = [];
 let price = [];
@@ -27,6 +27,127 @@ async function getProducts() {
 }
 getProducts();
 
+function DisplayFeaturedItems() {
+  const featuredProductsContainer = document.querySelector(".featured");
+  const flashSalesContainer = document.querySelector(".flash-sales");
+
+  const flashSalesItems = {
+    items: [
+      {
+        id: 1,
+        name: "Chanel Coco Noir Eau De",
+        img: "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp",
+        price: "₦45,000",
+      },
+      {
+        id: 2,
+        name: "Dolce Shine Eau de",
+        img: "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/1.webp",
+        price: "₦45,000",
+      },
+      {
+        id: 3,
+        name: "Heshe Women's Leather Bag",
+        img: "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/1.webp",
+        price: "₦45,000",
+      },
+      {
+        id: 4,
+        name: "Prada Women Bag",
+        img: "https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/1.webp",
+        price: "₦45,000",
+      },
+      {
+        id: 5,
+        name: "Pampi Shoes",
+        img: "https://cdn.dummyjson.com/product-images/womens-shoes/pampi-shoes/1.webp",
+        price: "₦45,000",
+      },
+      {
+        id: 6,
+        name: "Calvin Klein Heel Shoes",
+        img: "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/1.webp",
+        price: "₦45,000",
+      },
+    ],
+  };
+
+  flashSalesItems.items.forEach((item) => {
+    flashSalesContainer.innerHTML += `
+    <div class="productCard flex-col min-w-72 h-auto bg-white p-4 rounded-md shadow-lg relative">
+                    <div class="rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-40%</div>
+                    <img src="${item.img}"
+                        alt="Image of ${item.name}" class="h-64 object-contain rounded">
+                    <p class="mt-2 font-semibold">${item.name}</p>
+                    <div class="price flex gap-2">
+                        <span class="text-accent font-bold text-[var(--accent)]">${item.price}</span>
+                        <span class="text-[var(--secondary)] line-through ">₦57,000</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-4 mt-2">
+                        <button
+                            class="cart-btn add-to-cart flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-2 py-2 rounded-sm shadow-sm transition duration-150"
+                            id="addToCartBtn" data-product-id="${item.id}" data-product-name="${item.name}"
+                            data-product-price="45000"
+                            data-product-image="${item.img}">
+                            <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
+                            <span class="text-center cart-txt">Add to Cart</span>
+                        </button>
+                    </div>
+                </div>
+    `;
+  });
+  const featuredItems = [
+    {
+      id: 1,
+      name: "Calvin Klein Limited Edition Series",
+      img: "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp",
+      price: "₦45,000",
+    },
+    {
+      id: 2,
+      name: "Rolex Cellini Date Black",
+      img: "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp",
+      price: "₦45,000",
+    },
+    {
+      id: 3,
+      name: "Rolex Cellini Moonphase",
+      img: "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp",
+      price: "₦45,000",
+    },
+    {
+      id: 4,
+      name: "Apple Watch Series 4",
+      img: "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp",
+      price: "₦45,000",
+    },
+  ];
+
+  featuredItems.forEach((item) => {
+    featuredProductsContainer.innerHTML += `
+      <div class="productCard min-w-72 h-auto bg-white p-4 rounded-md shadow-lg">
+        <img src="${item.img}" alt="Image of ${item.name}" class="h-64 object-contain rounded">
+        <p class="mt-2 font-semibold">${item.name}</p>
+        <div class="price flex gap-2">
+          <span class="text-accent font-bold text-[var(--accent)]">${item.price}</span>
+          <span class="text-[var(--secondary)] line-through">₦57,000</span>
+        </div>
+            <div class="flex items-center justify-center gap-4 mt-2">
+                        <button
+                            class="cart-btn add-to-cart flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-2 py-2 rounded-sm shadow-sm transition duration-150"
+                            id="addToCartBtn" data-product- id="${item.id}" data-product-name="${item.name}"
+                            data-product-price="45000"
+                            data-product-image="${item.img}">
+                            <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
+                            <span class="text-center cart-txt">Add to Cart</span>
+                        </button>
+                    </div>
+      </div>
+    `;
+  });
+}
+DisplayFeaturedItems();
+
 function displayItems(products, section = document.body) {
   section.innerHTML = "";
 
@@ -40,7 +161,7 @@ function displayItems(products, section = document.body) {
       ? product.images[0]
       : "./images/templateImg.jpg";
 
-    let nairaPrice = `₦${(
+    let nairaPrice = `₦${Math.round(
       product.price * NAIRA_CONVERSION_RATE
     ).toLocaleString()}`;
     let originalPrice;
@@ -67,13 +188,14 @@ function displayItems(products, section = document.body) {
         <p class = "text-md font-light text-[var(--secondary)] line-through ">${originalPrice}</p>
       </div>
     `;
-
-    //  Generate Random User's Profiles
+    //  Display Product Profiles
     cards.addEventListener("click", async () => {
       const loader = document.getElementById("loader");
       const container = document.getElementById("container");
       container.style.display = "none";
-      
+      const results = document.getElementById("results");
+      results.style.display = "none";
+
       const reviews = product.reviews || [];
       async function fetchRandomProfiles(count) {
         const res = await fetch(
@@ -89,7 +211,7 @@ function displayItems(products, section = document.body) {
           const avatar = prof.picture.thumbnail;
           const fullName = review.reviewerName;
           const ratingStars =
-             "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+            "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
           const date = new Date(review.date).toLocaleDateString();
 
           return `
@@ -108,7 +230,11 @@ function displayItems(products, section = document.body) {
 
       const ProductInfoContainer = document.getElementById("productInfo");
       ProductInfoContainer.style.display = "flex";
-     
+      const productRating =
+        "★".repeat(Math.floor(product.rating)) +
+        "☆".repeat(5 - Math.floor(product.rating));
+      const quantityLeft = product.stock;
+
       ProductInfoContainer.innerHTML = `
         <button class="back-btn px-6 py-4 text-gray-700 text-lg absolute top-3 left-6 rounded-md font-semibold" id="backToMain">&#10094; Back</button>
 
@@ -125,7 +251,7 @@ function displayItems(products, section = document.body) {
           )}% OFF</span>
         </div>
         <div class="rating flex justify-center items-center gap-2 mt-2">
-          <span class="text-xl text-yellow-400">★★★★☆</span>
+          <span class="text-xl text-yellow-400">${productRating}</span>
           <span class="text-gray-500 text-md">(234 ratings)</span>
         </div>
           </div>
@@ -144,9 +270,15 @@ function displayItems(products, section = document.body) {
           <p class="text-2xl font-bold text-[#ace335]">${nairaPrice}</p>
           <p class="line-through text-gray-400 text-md">${originalPrice}</p>
         </div>
-
+          <div class="itemsLeft mt-4 text-gray-600 text-md">
+                    <span class="itemsLeftNo font-semibold text-[#0084F0]">${quantityLeft}</span> Items Left
+                </div>
         <div class="flex items-center justify-center gap-4 mt-6 ">
-          <button class="cart-btn flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-6 py-4 rounded-sm shadow-sm transition duration-150" id="addToCartBtn">
+          <button class="cart-btn add-to-cart flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-6 py-4 rounded-sm shadow-sm transition duration-150" id="addToCartBtn"
+      data-product-id="${product.id}"
+      data-product-name="${product.title}"
+      data-product-price="${product.price * NAIRA_CONVERSION_RATE}"
+      data-product-image="${imageUrl}">
             <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
             <span class="text-center cart-txt">Add to Cart</span>
           </button>
@@ -161,20 +293,26 @@ function displayItems(products, section = document.body) {
           </div>
         </div>
       `;
-
-      // Add event listener for the Add to Cart button
-      const addToCartBtn = document.getElementById("addToCartBtn");
-      if (addToCartBtn) {
-        addToCartBtn.addEventListener("click", function () {
-          // Your add to cart logic here
-          alert(`Added "${product.title}" to cart!`);
-        });
+      
+// Logic for ProductQuantity Color
+      let NumberDisplay = document.querySelector(".itemsLeftNo");
+      if (quantityLeft <= 10) {
+        NumberDisplay.classList.add("text-red-700");
+      } else if (quantityLeft <= 50) {
+        NumberDisplay.classList.add("text-yellow-500");
+      } else {
+        NumberDisplay.classList.add("text-blue-400");
       }
-     const backbtn = document.getElementById('backToMain')
-        backbtn.addEventListener('click',()=>{
-        container.style.display = "block";
-        ProductInfoContainer.style.display= "none";
-      })
+
+      let backbtn = document.querySelectorAll(".back-btn");
+      backbtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          container.style.display = "block";
+          const results = document.getElementById("results");
+          results.style.display = "none";
+          ProductInfoContainer.style.display = "none";
+        });
+      });
     });
 
     section.appendChild(cards);
@@ -200,7 +338,6 @@ async function fetchByCategory(category, section) {
   } catch (err) {
     console.error(err);
   }
-
   // Display where ?
 }
 
@@ -248,7 +385,7 @@ async function displaySections() {
 
         // Create the section for products
         const section = document.createElement("section");
-        section.id = `${category.slug || category}Display`;
+        section.id = `${category.slug || category}-section`;
         section.className = `${
           category.slug || category
         } flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
@@ -290,6 +427,9 @@ document.addEventListener("DOMContentLoaded", function () {
 let searchInput = document.getElementById("search");
 const results = document.getElementById("results");
 async function searchProducts(query) {
+  const loader = document.getElementById("loader");
+  loader.style.display = "block"; // Show loader
+
   try {
     let response = await fetch(
       `https://dummyjson.com/products/search?q=${query}`
@@ -299,18 +439,21 @@ async function searchProducts(query) {
     }
     const data = await response.json();
 
-    let main = document.getElementById("main");
-
+    const main = document.getElementById("container");
+    const products = document.querySelector(".search-items");
     main.style.display = "none";
     results.style.display = "flex";
 
-    //display Products
-    displayItems(data.products, results);
+    // Display Products
+    displayItems(data.products, products);
   } catch (err) {
     console.error(err);
+  } finally {
+    loader.style.display = "none"; // Hide loader after rendering
   }
 }
 
+// Event Listener for search
 searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     const query = searchInput.value.trim().toLowerCase();
@@ -318,19 +461,8 @@ searchInput.addEventListener("keydown", function (e) {
   }
 });
 
-// searchInput.addEventListener("input", function (e) {
-
-//     const query = searchInput.value.trim().toLowerCase();
-//     if (query) searchProducts(query);
-
-// });
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("sign-in").addEventListener("click", () => {
     window.location.href = "login.html";
   });
 });
-
-// =========================================================
-//                        Some JS
-// =========================================================
-// The logic for attaching click listeners to product cards is now handled inside displayItems after cards are created.

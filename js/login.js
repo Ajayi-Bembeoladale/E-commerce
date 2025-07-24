@@ -19,14 +19,16 @@ class Swiftly {
 
     this.signupUsername = document.getElementById("signup-username");
     this.signupPassword = document.getElementById("signup-password");
-    this.signupEmail = document.querySelector("#signUpForm input[type='email']");
+    this.signupEmail = document.querySelector(
+      "#signUpForm input[type='email']"
+    );
 
     this.messageDisplay = document.querySelector("#current-username");
     this.messageDisplay2 = document.querySelector("#profile-username");
     this.accountnmDisplay = document.querySelector("#profile-user-number");
     this.msgBox = document.querySelector(".msg");
     this.mainPage = document.querySelector(".swiftly");
-
+    window.currentUserId = localStorage.getItem("loggedInUserId") || null;
     this.users = this.getUsersFromLocalStorage();
     this.init();
   }
@@ -86,7 +88,10 @@ class Swiftly {
     this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
     this.msgBox.style.marginTop = "20px";
     this.msgBox.style.transition = "all 0.3s ease";
-    this.msgBox.style.animation = backgroundColor === "green" ? "animateSuccessful 0.5s" : "animateUnsucessful 0.5s";
+    this.msgBox.style.animation =
+      backgroundColor === "green"
+        ? "animateSuccessful 0.5s"
+        : "animateUnsucessful 0.5s";
 
     this.msgBox.classList.add("show");
 

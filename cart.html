@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,31 +37,40 @@
         }
     </script>
 </head>
+
 <body class="overflow-x-hidden">
     <!-- NEW CODE: Cart Page Content -->
     <div class="nav sticky top-0 z-50 overflow-hidden">
         <!-- Navbar -->
-        <nav class="justify-between w-[100dvw] items-center sticky top-0 shadow-md p-6 z-50 right px-10 flex bg-[#0084F0]">
+        <nav
+            class="justify-between w-[100dvw] items-center sticky top-0 shadow-md p-6 z-50 right px-10 flex bg-[#0084F0]">
             <div class="flex items-center gap-2" id="home">
                 <a href="index.html"><span class="text-3xl font-bold text-[#FAF9F6]"> SWIFTLY</span></a>
             </div>
             <div class="hidden md:flex items-center gap-10">
                 <!-- Search Bar -->
-                <div class="flex search items-center rounded-full px-4 py-2 w-[40rem] bg-[#FAF9F6] focus:outline-sky-500 focus:border-[--var(primary)]">
+                <div
+                    class="flex search items-center rounded-full px-4 py-2 w-[40rem] bg-[#FAF9F6] focus:outline-sky-500 focus:border-[--var(primary)]">
                     <i class="fa-solid fa-magnifying-glass text-sm justify-center mx-2"></i>
-                    <input type="text" id="search" placeholder="search for brands, products and categories" class="outline-none w-full caret-blue-400 focus:outline focus:outline-4 focus:outline-red-500 bg-[#FAF9F6] text-md p-1">
+                    <input type="text" id="search" placeholder="search for brands, products and categories"
+                        class="outline-none w-full caret-blue-400 focus:outline focus:outline-4 focus:outline-red-500 bg-[#FAF9F6] text-md p-1">
                 </div>
                 <!-- Account -->
                 <div class="acc flex-col relative">
                     <div class="account drop flex gap-2 cursor-pointer items-center hover:text-[#AFFF00]">
-                        <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png" alt="user" />
+                        <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png"
+                            alt="user" />
                         <span class="text-md font-semibold text-white">Account</span>
-                        <i class="fa-solid fa-angle-down text-white text-sm mt-[.4rem] hover:text-[#AFFF00] hover:translate-y" id="arrow"></i>
+                        <i class="fa-solid fa-angle-down text-white text-sm mt-[.4rem] hover:text-[#AFFF00] hover:translate-y"
+                            id="arrow"></i>
                     </div>
                     <!-- Dropdown -->
-                    <div class="acc-menu dropdown-menu hidden absolute top-full left-0 mt-3 bg-white shadow-lg rounded-md p-5 w-40 z-50 hover:text-[#AFFF00]">
+                    <div
+                        class="acc-menu dropdown-menu hidden absolute top-full left-0 mt-3 bg-white shadow-lg rounded-md p-5 w-40 z-50 hover:text-[#AFFF00]">
                         <div class="sign-in" id="sign-in">
-                            <button class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">Sign In</button>
+                            <button
+                                class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">Sign
+                                In</button>
                         </div>
                         <div class="orders flex items-center gap-2 mt-4 text-gray-700 hover:text-[var(--accent)]">
                             <i class="fa-solid fa-truck"></i>
@@ -75,12 +85,15 @@
                 <!-- Help -->
                 <div class="help flex-col relative">
                     <div class="flex gap-2 cursor-pointer items-center hover:text-[#AFFF00">
-                        <img width="22" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png" alt="help" />
+                        <img width="22" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png"
+                            alt="help" />
                         <span class="text-md font-semibold text-white">Help</span>
-                        <i class="fa-solid help fa-angle-down text-white text-sm mt-[.4rem] hover:text-[#AFFF00] hover:translate-y" id="arrow-help"></i>
+                        <i class="fa-solid help fa-angle-down text-white text-sm mt-[.4rem] hover:text-[#AFFF00] hover:translate-y"
+                            id="arrow-help"></i>
                     </div>
                     <!-- Dropdown -->
-                    <div class="help-menu dropdown-menu hidden absolute top-full left-0 mt-3 bg-white shadow-lg rounded-md p-5 w-44 z-50" id="help-menu">
+                    <div class="help-menu dropdown-menu hidden absolute top-full left-0 mt-3 bg-white shadow-lg rounded-md p-5 w-44 z-50"
+                        id="help-menu">
                         <div class="orders flex items-center gap-3 mt-4 text-gray-700 hover:text-[var(--accent)]">
                             <i class="fa-solid fa-robot"></i>
                             <p class="ai-assistant">AI Assistant</p>
@@ -107,17 +120,20 @@
             </button>
         </nav>
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="fixed top-0 left-0 w-full h-full bg-primary bg-opacity-95 z-20 flex-col items-center justify-center hidden">
+        <div id="mobileMenu"
+            class="fixed top-0 left-0 w-full h-full bg-primary bg-opacity-95 z-20 flex-col items-center justify-center hidden">
             <button id="closeMenu" class="absolute top-4 right-6 text-white text-3xl">
                 <i class="fa-solid fa-times"></i>
             </button>
             <div class="flex flex-col gap-8 items-center mt-20">
                 <div class="flex items-center gap-2">
-                    <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png" alt="user" />
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/material-sharp/32/user.png"
+                        alt="user" />
                     <span class="text-md font-semibold text-white">Account</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <img width="24" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png" alt="help" />
+                    <img width="24" height="24" src="https://img.icons8.com/ffffff/ios-filled/100/help.png"
+                        alt="help" />
                     <span class="text-md font-semibold text-white">Help</span>
                 </div>
                 <a href="cart.html" class="flex items-center gap-2">
@@ -128,8 +144,9 @@
             </div>
         </div>
     </div>
+
     <!-- Cart Content -->
-    <div class="cart-container p-6 max-w-7xl mx-auto">
+    <div class="cart-container p-6 max-w-7xl mx-auto">  
         <h2 class="text-2xl font-bold text-[#0084F0] mb-6">Your Cart</h2>
         <div id="cartItems" class="flex flex-col gap-4">
             <!-- Cart items will be dynamically added here -->
@@ -137,7 +154,9 @@
         <div id="emptyCart" class="text-center text-gray-600 mt-8 hidden">
             <p class="text-xl font-semibold">No items have been added to cart.</p>
             <p class="mt-2">Add items to see them in cart.</p>
-            <a href="index.html" class="mt-4 inline-block bg-[#0084F0] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#AFFF00]">Shop Now</a>
+            <a href="index.html"
+                class="mt-4 inline-block bg-[#0084F0] text-white px-6 py-3 rounded-md font-semibold hover:bg-[#AFFF00]">Shop
+                Now</a>
         </div>
         <div id="cartSummary" class="mt-6 bg-white p-4 rounded-md shadow-md hidden">
             <div class="flex justify-between items-center mb-4">
@@ -146,29 +165,39 @@
             </div>
             <div class="mb-4">
                 <label for="location" class="block text-sm font-medium text-gray-700">Delivery Location</label>
-                <input type="text" id="location" placeholder="Enter your delivery address" class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0084F0]">
+                <input type="text" id="location" placeholder="Enter your delivery address"
+                    class="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0084F0]">
             </div>
-            <button id="checkoutBtn" class="w-full bg-[#0084F0] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#AFFF00] disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Proceed to Checkout</button>
+            <button id="checkoutBtn"
+                class="w-full bg-[#0084F0] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#AFFF00] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled>Proceed to Checkout</button>
         </div>
         <!-- Checkout Modal -->
-        <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div id="checkoutModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
             <div class="bg-white p-6 rounded-md max-w-lg w-full">
                 <h3 class="text-xl font-bold text-[#0084F0] mb-4">Payment Gateway</h3>
                 <div class="mb-4">
                     <p class="text-gray-700">Order Total: <span id="modalSubtotal" class="font-semibold">₦0</span></p>
-                    <p class="text-gray-700">Delivery Address: <span id="modalLocation" class="font-semibold"></span></p>
-                    <p class="text-gray-700">Estimated Delivery: <span id="modalDeliveryDate" class="font-semibold"></span></p>
+                    <p class="text-gray-700">Delivery Address: <span id="modalLocation" class="font-semibold"></span>
+                    </p>
+                    <p class="text-gray-700">Estimated Delivery: <span id="modalDeliveryDate"
+                            class="font-semibold"></span></p>
                 </div>
                 <div class="flex gap-4">
-                    <button id="cancelCheckout" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md font-semibold hover:bg-gray-400">Cancel</button>
-                    <button id="confirmCheckout" class="flex-1 bg-[#0084F0] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#AFFF00]">Pay Now</button>
+                    <button id="cancelCheckout"
+                        class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md font-semibold hover:bg-gray-400">Cancel</button>
+                    <button id="confirmCheckout"
+                        class="flex-1 bg-[#0084F0] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#AFFF00]">Pay
+                        Now</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/js/script.js"></script>
     <script src="/js/login.js"></script>
     <script src="/js/effects.js"></script>
     <script src="/js/cart.js"></script>
+    <script src="/js/script.js"></script>
 </body>
+
 </html>

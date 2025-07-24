@@ -25,27 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function showCartNotification() {
         const notification = document.getElementById('cartNotification');
         if (notification) {
-            notification.classList.remove('hide');
-            notification.classList.add('show');
+            notification.classList.remove('hidden');
+            notification.classList.add('block');
             setTimeout(() => {
-                notification.classList.remove('show');
-                notification.classList.add('hide');
-                setTimeout(() => {
-                    notification.classList.add('hidden');
-                }, 500);
+                notification.classList.remove('block');
+                notification.classList.add('hidden');
             }, 3000);
         }
     }
 
-    // Add to cart functionality
-    document.querySelectorAll('.add-to-cart, #addToCartBtn').forEach(button => {
-        button.addEventListener('click', () => {
+    // Add to cart functionality - fixed event delegation
+    document.body.addEventListener('click', (e) => {
+        const button = e.target.closest('.add-to-cart');
+        if (button) {
             if (!currentUserId) {
                 alert('Please login to add items to cart');
                 window.location.href = 'login.html';
                 return;
             }
-
+            
             const productId = button.dataset.productId;
             const productName = button.dataset.productName;
             const productPrice = parseFloat(button.dataset.productPrice);
@@ -67,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
             updateCartCount();
             showCartNotification();
-        });
+        }
     });
 
     // Cart page specific functionality
@@ -96,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="${item.image}" alt="${item.name}">
                         <div class="cart-item-details">
                             <p class="font-semibold text-[#0084F0]">${item.name}</p>
-                            <p>₦${(item.price * item.quantity).toLocaleString()}</p>
+                            <p>₦${Math.round(item.price * item.quantity).toLocaleString()}</p>
                             <div class="quantity-control">
                                 <button class="decrease-quantity" data-index="${index}">-</button>
                                 <span>${item.quantity}</span>
@@ -108,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cartItemsContainer.appendChild(itemElement);
                 });
 
-                const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+                const subtotal = cart.reduce((total, item) => Math.round(total + item.price * item.quantity), 0);
                 document.getElementById('cartSubtotal').textContent = `₦${subtotal.toLocaleString()}`;
             }
         }
@@ -225,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // NEW CODE: Dynamic Product Loading
+    // Dynamic Product Loading
     if (window.location.pathname.includes('product.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
