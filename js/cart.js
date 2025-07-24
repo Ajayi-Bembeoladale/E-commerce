@@ -16,11 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showCartNotification() {
         const notification = document.getElementById('cartNotification');
         if (notification) {
-            notification.classList.remove('hide');
-            notification.classList.add('show');
+            notification.classList.remove('hidden');
+            notification.classList.add('block');
             setTimeout(() => {
-                notification.classList.remove('show');
-                notification.classList.add('hide');
+                notification.classList.remove('block');
+                notification.classList.add('hidden');
                 setTimeout(() => {
                     notification.classList.add('hidden');
                 }, 500);
@@ -29,31 +29,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add to cart functionality
-    document.querySelectorAll('.add-to-cart, #addToCartBtn').forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.dataset.productId;
-            const productName = button.dataset.productName;
-            const productPrice = parseFloat(button.dataset.productPrice);
-            const productImage = button.dataset.productImage;
+    document.body.addEventListener('click', (e) => {
+    const button = e.target.closest('.add-to-cart');
 
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: productId,
-                    name: productName,
-                    price: productPrice,
-                    image: productImage,
-                    quantity: 1
-                });
-            }
+  if (button) {
+    const productId = button.dataset.productId;
+    const productName = button.dataset.productName;
+    const productPrice = parseFloat(button.dataset.productPrice);
+    const productImage = button.dataset.productImage;
 
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            showCartNotification();
-        });
-    });
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image: productImage,
+        quantity: 1
+      });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    showCartNotification();
+  }
+});
+ 
 
     // Cart page specific functionality
     if (window.location.pathname.includes('cart.html')) {
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="${item.image}" alt="${item.name}">
                         <div class="cart-item-details">
                             <p class="font-semibold text-[#0084F0]">${item.name}</p>
-                            <p>₦${(item.price * item.quantity).toLocaleString()}</p>
+                            <p>₦${Math.round(item.price * item.quantity).toLocaleString()}</p>
                             <div class="quantity-control">
                                 <button class="decrease-quantity" data-index="${index}">-</button>
                                 <span>${item.quantity}</span>
@@ -93,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cartItemsContainer.appendChild(itemElement);
                 });
 
-                const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+                const subtotal = cart.reduce((total, item) => Math.round(total + item.price * item.quantity), 0);
                 document.getElementById('cartSubtotal').textContent = `₦${subtotal.toLocaleString()}`;
             }
         }
