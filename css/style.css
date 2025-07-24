@@ -17,7 +17,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-
 }
 
 body {
@@ -45,9 +44,11 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
 #authentication{
   margin-top: 7%;
 }
+
 .wrapper {
   position: relative;
   width: 750px;
@@ -331,7 +332,6 @@ form .linkTxt {
 }
 
 @keyframes animate {
-
   40%,
   60% {
     left: calc(100% + 4px);
@@ -372,19 +372,14 @@ form .linkTxt {
   text-align: center;
   margin-left: 33%;
   display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-
-  .msg.show {
-    display: block;
-    opacity: 1;
-  }
-
-
-
+.msg.show {
+  display: block;
+  opacity: 1;
+}
 
 @keyframes animateSuccessful {
   0% {
@@ -424,13 +419,11 @@ form .linkTxt {
   }
 }
 
-
-
 .welcome{
   color: #e0091b;
   margin-top: 25%;
   margin-left: 40%;
-   text-align: center;
+  text-align: center;
   font-weight: bold;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -461,7 +454,6 @@ form .linkTxt {
 
 .show-transition-text {
   opacity: 1;
-
   visibility: visible;
 }
 
@@ -470,8 +462,65 @@ form .linkTxt {
   transition: opacity 0.5s ease-in-out;
 }
 
-r .profile-section:hover #profile-dropdown {
+.profile-section:hover #profile-dropdown {
   display: block !important;
 }
 
+/* Password Strength Meter Styles */
+.input-box .strengthMeter {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: #ddd;
+  border-radius: 3px;
+}
+
+.input-box .strengthMeter::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 100%;
+  transition: 0.5s;
+}
+
+.input-box.weak .strengthMeter::before {
+  width: 30%;
+  background: #ff4757;
+}
+
+.input-box.moderate .strengthMeter::before {
+  width: 60%;
+  background: #ffa502;
+}
+
+.input-box.strong .strengthMeter::before {
+  width: 100%;
+  background: #2ed573;
+}
+
+.input-box .strengthText {
+  position: absolute;
+  top: -25px;
+  right: 0;
+  font-size: 0.7em;
+  transition: 0.5s;
+  color: transparent;
+}
+
+.input-box.weak .strengthText {
+  color: #ff4757;
+  content: "Weak";
+}
+
+.input-box.moderate .strengthText {
+  color: #ffa502;
+  content: "Moderate";
+}
+
+.input-box.strong .strengthText {
+  color: #2ed573;
+  content: "Strong";
+}
 

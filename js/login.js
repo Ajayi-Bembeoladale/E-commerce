@@ -1,52 +1,86 @@
 class User {
-  constructor(id, username, password, usernumber) {
+  constructor(id, username, password, email) {
     this.id = id;
     this.username = username;
     this.password = password;
-    this.accountnumber = usernumber;
+    this.email = email;
   }
 }
 
 class Swiftly {
   constructor() {
+    // Form elements
     this.wrapper = document.querySelector(".wrapper");
     this.registerLink = document.querySelector(".register-link");
     this.loginLink = document.querySelector(".login-link");
     this.transitionText = document.getElementById("transition-text");
 
+    // Login fields
     this.loginUsername = document.getElementById("login-username");
     this.loginPassword = document.getElementById("login-password");
 
+    // Signup fields
     this.signupUsername = document.getElementById("signup-username");
     this.signupPassword = document.getElementById("signup-password");
-    this.signupEmail = document.querySelector(
-      "#signUpForm input[type='email']"
-    );
+    this.signupEmail = document.getElementById("signup-email");
 
-    this.messageDisplay = document.querySelector("#current-username");
-    this.messageDisplay2 = document.querySelector("#profile-username");
-    this.accountnmDisplay = document.querySelector("#profile-user-number");
+    // Message displays
     this.msgBox = document.querySelector(".msg");
+    this.messageDisplay = document.querySelector("#current-username");
     this.mainPage = document.querySelector(".swiftly");
-    window.currentUserId = localStorage.getItem("loggedInUserId") || null;
+    
     this.users = this.getUsersFromLocalStorage();
     this.init();
   }
 
   init() {
+    // Event listeners
     this.registerLink.onclick = (e) => this.showRegisterForm(e);
     this.loginLink.onclick = (e) => this.showLoginForm(e);
-    document.getElementById("signUpForm").onsubmit = (e) =>
-      this.handleSignUp(e);
+    document.getElementById("signUpForm").onsubmit = (e) => this.handleSignUp(e);
     document.getElementById("loginForm").onsubmit = (e) => this.handleLogin(e);
-    document.getElementById("toggle").onclick = () =>
-      this.togglePasswordVisibility();
-    const profileBtn = document.getElementById("profile-btn");
-    if (profileBtn) {
-      profileBtn.onclick = () => this.toggleProfileDropdown();
-    }
+    document.getElementById("toggle").onclick = () => this.togglePasswordVisibility();
+    
+    this.setupPasswordStrengthMeter();
   }
 
+  // Password strength meter functionality
+  setupPasswordStrengthMeter() {
+    const passwordInput = this.signupPassword;
+    const inputBox = passwordInput.parentElement;
+    
+    passwordInput.addEventListener('input', () => {
+      const password = passwordInput.value;
+      const strength = this.calculatePasswordStrength(password);
+      
+      inputBox.classList.remove('weak', 'moderate', 'strong');
+      
+      if (password.length === 0) {
+        inputBox.querySelector('.strengthText').textContent = '';
+      } else if (strength <= 2) {
+        inputBox.classList.add('weak');
+        inputBox.querySelector('.strengthText').textContent = 'Weak';
+      } else if (strength <= 4) {
+        inputBox.classList.add('moderate');
+        inputBox.querySelector('.strengthText').textContent = 'Moderate';
+      } else {
+        inputBox.classList.add('strong');
+        inputBox.querySelector('.strengthText').textContent = 'Strong';
+      }
+    });
+  }
+
+  calculatePasswordStrength(password) {
+    let strength = 0;
+    if (password.length > 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    return strength;
+  }
+
+  // Form handling
   showTransitionText() {
     this.transitionText.classList.add("show-transition-text");
     setTimeout(() => {
@@ -70,10 +104,6 @@ class Swiftly {
     }, 50);
   }
 
-  generateUserNumber() {
-    return `AC${Math.floor(1000000000 + Math.random() * 9000000000)}`;
-  }
-
   generateUniqueId() {
     return Date.now().toString();
   }
@@ -81,26 +111,8 @@ class Swiftly {
   showMessage(text, backgroundColor) {
     this.msgBox.textContent = text;
     this.msgBox.style.backgroundColor = backgroundColor;
-    this.msgBox.style.color = "#fff";
-    this.msgBox.style.padding = "10px 15px";
-    this.msgBox.style.borderRadius = "5px";
-    this.msgBox.style.fontWeight = "bold";
-    this.msgBox.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.2)";
-    this.msgBox.style.marginTop = "20px";
-    this.msgBox.style.transition = "all 0.3s ease";
-    this.msgBox.style.animation =
-      backgroundColor === "green"
-        ? "animateSuccessful 0.5s"
-        : "animateUnsucessful 0.5s";
-
     this.msgBox.classList.add("show");
-
-    if (this.msgTimeout) clearTimeout(this.msgTimeout);
-    this.msgTimeout = setTimeout(() => {
-      this.msgBox.textContent = "";
-      this.msgBox.style.backgroundColor = "";
-      this.msgBox.classList.remove("show");
-    }, 2000);
+    setTimeout(() => this.msgBox.classList.remove("show"), 2000);
   }
 
   handleSignUp(e) {
@@ -109,84 +121,43 @@ class Swiftly {
     const email = this.signupEmail.value.trim();
     const password = this.signupPassword.value.trim();
 
-    // Check if username or email already exists
-    const userExists = this.users.some(
-      (user) => user.username === username || user.email === email
-    );
-
-    if (userExists) {
+    if (this.users.some(user => user.username === username || user.email === email)) {
       this.showMessage("Username or email already exists.", "#e74c3c");
       return;
     }
 
-    // Create new user
-    const newUser = new User(
-      this.generateUniqueId(),
-      username,
-      password,
-      this.generateUserNumber()
-    );
-    newUser.email = email; // Add email to user object
-    this.users.push(newUser);
+    this.users.push(new User(this.generateUniqueId(), username, password, email));
     this.saveUsersToLocalStorage();
-
     this.showMessage("Sign-up successful! Please log in.", "green");
 
-    // Reset form and switch to login
+    // Reset form
     this.signupUsername.value = "";
     this.signupEmail.value = "";
     this.signupPassword.value = "";
-    setTimeout(() => {
-      this.wrapper.classList.remove("active");
-    }, 2000);
+    setTimeout(() => this.wrapper.classList.remove("active"), 2000);
   }
-handleLogin(e) {
-  e.preventDefault();
-  const enteredUsername = this.loginUsername.value.trim();
-  const enteredPassword = this.loginPassword.value.trim();
 
-  const foundUser = this.users.find(
-    (user) =>
-      user.username.toLowerCase() === enteredUsername.toLowerCase() &&
-      user.password === enteredPassword
-  );
+  handleLogin(e) {
+    e.preventDefault();
+    const user = this.users.find(u => 
+      u.username.toLowerCase() === this.loginUsername.value.trim().toLowerCase() && 
+      u.password === this.loginPassword.value.trim()
+    );
 
-  if (foundUser) {
-    this.msgBox.textContent = "";
-    this.messageDisplay2.textContent = foundUser.username;
-    this.accountnmDisplay.textContent = foundUser.accountnumber;
-    this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
-
-    $("#authentication").hide();
-    $("#warning").hide();
-    $(".swiftly").show();
-    
-    // Store user ID in localStorage
-    localStorage.setItem("currentUserId", foundUser.id);
-    
-    console.log("Login successful, showing welcome message for", foundUser.username);
-    setTimeout(() => {
-      console.log("Attempting redirect to index.html");
-      this.messageDisplay.style.display = "none";
-      this.mainPage.style.display = "block";
-      try {
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("Redirect failed:", error);
-        this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
-      }
-    }, 2000);
-
-    localStorage.setItem("loggedInUser", foundUser.username);
-  } else {
-    this.showMessage("Invalid username or password.", "#e74c3c");
+    if (user) {
+      this.messageDisplay.textContent = `Welcome, ${user.username}!`;
+      $("#authentication").hide();
+      $(".swiftly").show();
+      localStorage.setItem("currentUserId", user.id);
+      setTimeout(() => window.location.href = "index.html", 2000);
+    } else {
+      this.showMessage("Invalid username or password.", "#e74c3c");
+    }
   }
-}
 
   togglePasswordVisibility() {
-    const passwordField = document.getElementById("signup-password");
+    const passwordField = this.signupPassword;
     const toggleIcon = document.getElementById("toggle");
-
     if (passwordField.type === "password") {
       passwordField.type = "text";
       toggleIcon.classList.replace("bx-show", "bx-hide");
@@ -196,12 +167,7 @@ handleLogin(e) {
     }
   }
 
-  toggleProfileDropdown() {
-    const dropdown = document.getElementById("profile-dropdown");
-    dropdown.style.display =
-      dropdown.style.display === "none" ? "block" : "none";
-  }
-
+  // Local storage helpers
   getUsersFromLocalStorage() {
     return JSON.parse(localStorage.getItem("users")) || [];
   }
@@ -211,6 +177,4 @@ handleLogin(e) {
   }
 }
 
-$(document).ready(function () {
-  const swiftlyApp = new Swiftly();
-});
+$(document).ready(() => new Swiftly());
