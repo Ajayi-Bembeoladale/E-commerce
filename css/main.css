@@ -40,3 +40,6 @@ html{
 .productCard:hover {
   transform: translateY(-4px);
 }
+#current-username{
+padding: 10px;
+}

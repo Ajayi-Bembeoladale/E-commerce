@@ -1,8 +1,17 @@
 // NEW CODE: Cart Management
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize cart and orders from localStorage
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    // Get current user ID
+    const currentUserId = localStorage.getItem('currentUserId');
+    
+    if (!currentUserId && window.location.pathname.includes('cart.html')) {
+        // Redirect to login if no user is logged in and trying to access cart
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Initialize user-specific cart and orders from localStorage
+    let cart = JSON.parse(localStorage.getItem(`userCart_${currentUserId}`)) || [];
+    let orders = JSON.parse(localStorage.getItem(`userOrders_${currentUserId}`)) || [];
 
     // Function to update cart count
     function updateCartCount() {
@@ -31,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add to cart functionality
     document.querySelectorAll('.add-to-cart, #addToCartBtn').forEach(button => {
         button.addEventListener('click', () => {
+            if (!currentUserId) {
+                alert('Please login to add items to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+
             const productId = button.dataset.productId;
             const productName = button.dataset.productName;
             const productPrice = parseFloat(button.dataset.productPrice);
@@ -49,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
             updateCartCount();
             showCartNotification();
         });
@@ -108,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.classList.contains('increase-quantity')) {
                 const index = e.target.dataset.index;
                 cart[index].quantity += 1;
-                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
                 updateCartCount();
                 renderCart();
             } else if (e.target.classList.contains('decrease-quantity')) {
@@ -118,13 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     cart.splice(index, 1);
                 }
-                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
                 updateCartCount();
                 renderCart();
             } else if (e.target.classList.contains('remove-item')) {
                 const index = e.target.dataset.index;
                 cart.splice(index, 1);
-                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
                 updateCartCount();
                 renderCart();
             }
@@ -172,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 status: 'Enroute'
             };
             orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
+            localStorage.setItem(`userOrders_${currentUserId}`, JSON.stringify(orders));
             cart = [];
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem(`userCart_${currentUserId}`, JSON.stringify(cart));
             updateCartCount();
             renderCart();
             document.getElementById('checkoutModal').classList.add('hidden');
@@ -210,85 +225,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// NEW CODE: Dynamic Product Loading
-if (window.location.pathname.includes('product.html')) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    const products = [
-        {
-            id: '1',
-            name: 'Calvin Klein Limited Edition Series',
-            price: 45000,
-            originalPrice: 57000,
-            image: 'https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp',
-            description: 'A stylish watch with a brown leather strap, perfect for any occasion.',
-            stock: 24,
-            discount: '21% OFF'
-        },
-        {
-            id: '2',
-            name: 'Rolex Cellini Date Black',
-            price: 45000,
-            originalPrice: 57000,
-            image: 'https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp',
-            description: 'Elegant Rolex Cellini with a black dial, offering timeless sophistication.',
-            stock: 24,
-            discount: '21% OFF'
-        },
-        {
-            id: '3',
-            name: 'Rolex Cellini Moonphase',
-            price: 45000,
-            originalPrice: 57000,
-            image: 'https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp',
-            description: 'Luxurious Rolex watch with moonphase complication.',
-            stock: 24,
-            discount: '21% OFF'
-        },
-        {
-            id: '4',
-            name: 'Apple Watch Series 4',
-            price: 45000,
-            originalPrice: 57000,
-            image: 'https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp',
-            description: 'Smartwatch with advanced health and fitness tracking features.',
-            stock: 24,
-            discount: '21% OFF'
-        },
-        {
-            id: '5',
-            name: 'Red Nail Polish',
-            price: 80000,
-            originalPrice: 95000,
-            image: 'https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp',
-            description: 'The Red Nail Polish offers a rich and glossy red hue for vibrant and polished nails.',
-            stock: 24,
-            discount: '16% OFF'
+    // NEW CODE: Dynamic Product Loading
+    if (window.location.pathname.includes('product.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const products = [
+            {
+                id: '1',
+                name: 'Calvin Klein Limited Edition Series',
+                price: 45000,
+                originalPrice: 57000,
+                image: 'https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp',
+                description: 'A stylish watch with a brown leather strap, perfect for any occasion.',
+                stock: 24,
+                discount: '21% OFF'
+            },
+            {
+                id: '2',
+                name: 'Rolex Cellini Date Black',
+                price: 45000,
+                originalPrice: 57000,
+                image: 'https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp',
+                description: 'Elegant Rolex Cellini with a black dial, offering timeless sophistication.',
+                stock: 24,
+                discount: '21% OFF'
+            },
+            {
+                id: '3',
+                name: 'Rolex Cellini Moonphase',
+                price: 45000,
+                originalPrice: 57000,
+                image: 'https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp',
+                description: 'Luxurious Rolex watch with moonphase complication.',
+                stock: 24,
+                discount: '21% OFF'
+            },
+            {
+                id: '4',
+                name: 'Apple Watch Series 4',
+                price: 45000,
+                originalPrice: 57000,
+                image: 'https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp',
+                description: 'Smartwatch with advanced health and fitness tracking features.',
+                stock: 24,
+                discount: '21% OFF'
+            },
+            {
+                id: '5',
+                name: 'Red Nail Polish',
+                price: 80000,
+                originalPrice: 95000,
+                image: 'https://cdn.dummyjson.com/product-images/beauty/red-lipstick/thumbnail.webp',
+                description: 'The Red Nail Polish offers a rich and glossy red hue for vibrant and polished nails.',
+                stock: 24,
+                discount: '16% OFF'
+            }
+        ];
+
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            document.querySelector('.productTitle').textContent = product.name;
+            document.querySelector('.productDescription').textContent = product.description;
+            document.querySelector('.sub-left img').src = product.image;
+            document.querySelector('.sub-left span').textContent = product.discount;
+            document.querySelector('.price p:first-child').textContent = `₦${product.price.toLocaleString()}`;
+            document.querySelector('.price p:last-child').textContent = `₦${product.originalPrice.toLocaleString()}`;
+            document.querySelector('.itemsLeft span').textContent = product.stock;
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            addToCartBtn.dataset.productId = product.id;
+            addToCartBtn.dataset.productName = product.name;
+            addToCartBtn.dataset.productPrice = product.price;
+            addToCartBtn.dataset.productImage = product.image;
+        } else {
+            // Redirect to main page if product not found
+            window.location.href = 'index.html';
         }
-    ];
-
-    const product = products.find(p => p.id === productId);
-    if (product) {
-        document.querySelector('.productTitle').textContent = product.name;
-        document.querySelector('.productDescription').textContent = product.description;
-        document.querySelector('.sub-left img').src = product.image;
-        document.querySelector('.sub-left span').textContent = product.discount;
-        document.querySelector('.price p:first-child').textContent = `₦${product.price.toLocaleString()}`;
-        document.querySelector('.price p:last-child').textContent = `₦${product.originalPrice.toLocaleString()}`;
-        document.querySelector('.itemsLeft span').textContent = product.stock;
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        addToCartBtn.dataset.productId = product.id;
-        addToCartBtn.dataset.productName = product.name;
-        addToCartBtn.dataset.productPrice = product.price;
-        addToCartBtn.dataset.productImage = product.image;
-    } else {
-        // Redirect to main page if product not found
-        window.location.href = 'index.html';
     }
-}
-
-
-
 
     // Initialize cart count on page load
     updateCartCount();

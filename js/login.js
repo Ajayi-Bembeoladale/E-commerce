@@ -135,45 +135,48 @@ class Swiftly {
       this.wrapper.classList.remove("active");
     }, 2000);
   }
+handleLogin(e) {
+  e.preventDefault();
+  const enteredUsername = this.loginUsername.value.trim();
+  const enteredPassword = this.loginPassword.value.trim();
 
-  handleLogin(e) {
-    e.preventDefault();
-    const enteredUsername = this.loginUsername.value.trim();
-    const enteredPassword = this.loginPassword.value.trim();
+  const foundUser = this.users.find(
+    (user) =>
+      user.username.toLowerCase() === enteredUsername.toLowerCase() &&
+      user.password === enteredPassword
+  );
 
-    const foundUser = this.users.find(
-      (user) =>
-        user.username.toLowerCase() === enteredUsername.toLowerCase() &&
-        user.password === enteredPassword
-    );
+  if (foundUser) {
+    this.msgBox.textContent = "";
+    this.messageDisplay2.textContent = foundUser.username;
+    this.accountnmDisplay.textContent = foundUser.accountnumber;
+    this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
 
-    if (foundUser) {
-      this.msgBox.textContent = "";
-      this.messageDisplay2.textContent = foundUser.username;
-      this.accountnmDisplay.textContent = foundUser.accountnumber;
-      this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
+    $("#authentication").hide();
+    $("#warning").hide();
+    $(".swiftly").show();
+    
+    // Store user ID in localStorage
+    localStorage.setItem("currentUserId", foundUser.id);
+    
+    console.log("Login successful, showing welcome message for", foundUser.username);
+    setTimeout(() => {
+      console.log("Attempting redirect to index.html");
+      this.messageDisplay.style.display = "none";
+      this.mainPage.style.display = "block";
+      try {
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Redirect failed:", error);
+        this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
+      }
+    }, 2000);
 
-      $("#authentication").hide();
-      $("#warning").hide();
-      $(".swiftly").show();
-      console.log("Login successful, showing welcome message for", foundUser.username);
-      setTimeout(() => {
-        console.log("Attempting redirect to index.html");
-        this.messageDisplay.style.display = "none";
-        this.mainPage.style.display = "block";
-        try {
-          window.location.href = "index.html";
-        } catch (error) {
-          console.error("Redirect failed:", error);
-          this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
-        }
-      }, 2000);
-
-      localStorage.setItem("loggedInUser", foundUser.username);
-    } else {
-      this.showMessage("Invalid username or password.", "#e74c3c");
-    }
+    localStorage.setItem("loggedInUser", foundUser.username);
+  } else {
+    this.showMessage("Invalid username or password.", "#e74c3c");
   }
+}
 
   togglePasswordVisibility() {
     const passwordField = document.getElementById("signup-password");
