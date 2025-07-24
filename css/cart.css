@@ -1,0 +1,67 @@
+/* NEW CODE: Cart Notification Styles */
+#cartNotification {
+    transition: opacity 0.5s ease-in-out;
+}
+#cartNotification.show {
+    opacity: 1;
+}
+#cartNotification.hide {
+    opacity: 0;
+}
+
+/* NEW CODE: Cart Page Styles */
+.cart-container {
+    font-family: 'Poppins', sans-serif;
+}
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+.cart-item-details {
+    flex: 1;
+}
+.cart-item-details p {
+    margin: 0.5rem 0;
+}
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.quantity-control button {
+    background: #0084F0;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.quantity-control button:hover {
+    background: #AFFF00;
+}
+.quantity-control span {
+    font-weight: bold;
+}
+.remove-item {
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.remove-item:hover {
+    background: #cc0000;
+}
