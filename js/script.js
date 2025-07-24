@@ -5,7 +5,6 @@
 const NAIRA_CONVERSION_RATE = 1534.75; // USD to NGN conversion rate
 
 let allProducts = [];
-let price = [];
 async function getProducts() {
   try {
     let response = await fetch("https://dummyjson.com/products?limit=0");
@@ -293,8 +292,8 @@ function displayItems(products, section = document.body) {
           </div>
         </div>
       `;
-      
-// Logic for ProductQuantity Color
+
+      // Logic for ProductQuantity Color
       let NumberDisplay = document.querySelector(".itemsLeftNo");
       if (quantityLeft <= 10) {
         NumberDisplay.classList.add("text-red-700");
@@ -424,15 +423,15 @@ document.addEventListener("DOMContentLoaded", function () {
 //                     Search Function
 // =========================================================
 
+let results = document.getElementById("results");
 let searchInput = document.getElementById("search");
-const results = document.getElementById("results");
 async function searchProducts(query) {
   const loader = document.getElementById("loader");
   loader.style.display = "block"; // Show loader
 
   try {
     let response = await fetch(
-      `https://dummyjson.com/products/search?q=${query}`
+      `https://dummyjson.com/products/seach?q=${query}`
     );
     if (!response.ok) {
       throw new Error(`Error found ${response.status}`);
@@ -443,10 +442,52 @@ async function searchProducts(query) {
     const products = document.querySelector(".search-items");
     main.style.display = "none";
     results.style.display = "flex";
+    products.innerHTML = ``;
 
+    if (data.products.length == 0) {
+      results.innerHTML = `
+          <div class="no-results flex flex-col items-center justify-center w-full py-12 mt-12">
+          <div class="text-6xl mb-4">🔍</div>
+          <h2 class="text-2xl font-bold text-[#0084F0] mb-2">No Items Found</h2>
+          <p class="text-gray-600 text-center max-w-md">
+            We couldn't find any products matching "${query}".<br>
+            Try searching for something else.
+          </p>
+          <button id="backToShop" class="mt-6 px-6 py-3 bg-[#0084F0] text-white rounded-md hover:bg-[#0069c0] transition">
+            Back to Shop
+          </button>
+        </div>`;
+
+      document.getElementById("backToShop").addEventListener("click", () => {
+        main.style.display = "block";
+        results.style.display = "none";
+        searchInput.value = "";
+      });
+    } else {
+      displayItems(data.products, products);
+    }
     // Display Products
-    displayItems(data.products, products);
   } catch (err) {
+     const main = document.getElementById("container");
+    main.style.display = "none";
+    results.style.display = "flex";
+    results.innerHTML = `
+    <div class="bg-white flex justify-center items-center flex-col rounded-2xl p-8 md:p-12 max-w-md w-full text-center">
+    <div class="text-9xl font-bold text-blue-500">404</div>
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mt-6">Page Not Found</h1>
+    <p class="text-gray-600 mt-4">
+    Oops! The page you're looking for doesn't exist or has been moved.
+            </p>
+            <div class="mt-8">
+                <a href="/" class="inline-block bg-blue-600 hover:bg-blue-500-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300">
+                Go Back Home
+                </a>
+                </div>
+                <div class="mt-8 text-sm text-gray-500">
+                <p>Error code: 404</p>
+                <p class="mt-1">© swiftly </p>
+                </div>
+                </div>`;
     console.error(err);
   } finally {
     loader.style.display = "none"; // Hide loader after rendering
@@ -458,6 +499,7 @@ searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     const query = searchInput.value.trim().toLowerCase();
     if (query) searchProducts(query);
+    searchInput.value = "";
   }
 });
 

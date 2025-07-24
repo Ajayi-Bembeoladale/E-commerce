@@ -55,7 +55,7 @@
     </div>
     <!-- NEW CODE: Cart Notification Dropdown -->
     <div id="cartNotification"
-        class="fixed top-20 right-4 bg-[#0084F0] text-white px-6 py-4 rounded-md shadow-2xl hidden z-50">
+        class="fixed top-20 right-4 bg-[#0084F0] text-white px-6 py-4 rounded-md shadow-2xl hidden z-50 successful">
         <span class="text-[var(--accent)] p-1 rounded-full bg-white font-semibold">✔</span> Item added to cart
         successfully!
     </div>
@@ -103,8 +103,10 @@
                                     class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">Sign
                                     In</button>
                             </div>
-                             <div class="sign-in" id="sign-in">
-                                <button class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">Sign In</button>
+                            <div class="sign-in" id="sign-in">
+                                <button
+                                    class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">Sign
+                                    In</button>
                             </div>
                             <div class="orders flex items-center gap-2 mt-4 text-gray-700 hover:text-[var(--accent)]">
                                 <i class="fa-solid fa-truck"></i>
@@ -181,14 +183,20 @@
             </div>
         </div>
 
-        <div id="results" class="gap-4 p-4 mt-4 hidden justify-center items-stretch relative w-full">
-            <button class="back-btn px-6 py-4 text-gray-700 text-lg top-3 left-6 absolute rounded-md font-semibold"
-                id="backToMain">&#10094; Back</button>
-            <div
-                class="search-items grid grid-cols-1 gap-x-60 mt-8 px-12 py-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  ">
+        <div id="results" class="hidden w-full justify-center items center p-4 mt-4 relative px-6">
+            <!-- Back Button -->
+            <button
+                class="back-btn absolute top-3 left-6 px-4 py-2 text-gray-700 text-sm sm:text-base rounded-md font-semibold bg-gray-100 hover:bg-gray-200 transition"
+                id="backToMain">
+                &#10094; Back
+            </button>
+            <!-- Grid for Search Items -->
+           <div class="max-w-[1440px] mx-auto mr-4 search-items grid gap-x-6 mt-12 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full">
+                <!-- Product cards will be injected here -->
             </div>
-            <!-- Product cards go here -->
         </div>
+        
+
         <div class="itemsSection" id="container">
             <!-- Hero Section -->
             <div class="HeroSection flex p-6 gap-4 justify-center align-middle">
@@ -240,6 +248,10 @@
                                 alt="">
 
                             <!-- Real Slides -->
+                            <img src="https://ng.jumia.is/cms/0-1-weekly-cps/0-2025/0-1Advertising/July/Nivea/SUN/NVA-660x330.jpg"
+                                class="w-full flex-shrink-0" alt="">
+                            <img src="https://ng.jumia.is/cms/0-1-weekly-cps/0-2025/0-1Advertising/July/Nivea/SUN/NVA-660x330.jpg"
+                                class="w-full flex-shrink-0" alt="">
                             <img src="https://ng.jumia.is/cms/0-1-weekly-cps/0-2025/0-1Advertising/July/Nivea/SUN/NVA-660x330.jpg"
                                 class="w-full flex-shrink-0" alt="">
                             <img src="https://ng.jumia.is/cms/0-1-weekly-cps/0-2025/0-1Advertising/July/Nivea/SUN/NVA-660x330.jpg"
