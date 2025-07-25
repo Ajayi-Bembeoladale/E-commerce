@@ -134,7 +134,7 @@ function DisplayFeaturedItems() {
             <div class="flex items-center justify-center gap-4 mt-2">
                         <button
                             class="cart-btn add-to-cart flex items-center justify-center text-center w-full overflow-hidden text-lg gap-2 bg-[#0084F0] hover:bg-[#0084f0f4] text-white font-semibold px-2 py-2 rounded-sm shadow-sm transition duration-150"
-                            id="addToCartBtn" data-product- id="${item.id}" data-product-name="${item.name}"
+                            id="addToCartBtn" data-product-id="${item.id}" data-product-name="${item.name}"
                             data-product-price="45000"
                             data-product-image="${item.img}">
                             <i class="fa-solid fa-cart-shopping cart-icon text-white text-center"></i>
@@ -143,8 +143,10 @@ function DisplayFeaturedItems() {
                     </div>
       </div>
     `;
+
   });
 }
+
 DisplayFeaturedItems();
 
 function displayItems(products, section = document.body) {
@@ -158,7 +160,7 @@ function displayItems(products, section = document.body) {
     // Use the first image if available, otherwise use a fallback
     let imageUrl = product.images
       ? product.images[0]
-      : "./images/templateImg.jpg";
+      : "./images/templateImg.png";
 
     let nairaPrice = `₦${Math.round(
       product.price * NAIRA_CONVERSION_RATE
@@ -173,12 +175,12 @@ function displayItems(products, section = document.body) {
       ).toLocaleString()}`;
     }
     cards.innerHTML = `
-      <!--<div class= "rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-${Math.round(
+      <div class= "rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-${Math.round(
         product.discountPercentage
-      )}%</div> -->
+      )}%</div>
       <img class="product-image" src="${imageUrl}" alt="Image of ${
       product.title
-    }" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
+    }" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.png'">
       <div class="product-title text-balance">
         <h2 class="overflow-hidden text-ellipsis text-balance">${
           product.title
@@ -244,7 +246,7 @@ function displayItems(products, section = document.body) {
         <div class="img relative">
           <img src="${imageUrl}" alt="Image of ${
         product.title
-      }" onerror="this.onerror=null;this.src='./images/templateImg.jpg'">
+      }" onerror="this.onerror=null;this.src='./images/templateImg.png'">
           <span class="bg-lime-200 text-lime-500 absolute top-0 right-1 px-2 py-1 rounded text-xs font-semibold ml-2">${Math.round(
             product.discountPercentage
           )}% OFF</span>
@@ -306,10 +308,10 @@ function displayItems(products, section = document.body) {
       let backbtn = document.querySelectorAll(".back-btn");
       backbtn.forEach((btn) => {
         btn.addEventListener("click", () => {
-          container.style.display = "block";
           const results = document.getElementById("results");
-          results.style.display = "none";
           ProductInfoContainer.style.display = "none";
+          results.style.display = "none";
+          container.style.display = "block";
         });
       });
     });
@@ -367,9 +369,7 @@ async function displaySections() {
         const center = document.createElement("center");
         center.className =
           "text-xl bg-[var(--primary)] p-4 px-10 font-bold mt-2 text-[var(--highlight)] rounded-sm";
-        center.textContent = (category.slug || category)
-          .replace(/-/g, " ")
-          .toUpperCase();
+        center.textContent = category.slug.replace(/-/g, " ").toUpperCase();
 
         // Create wrapper for arrows + scrollable section
         const wrapper = document.createElement("div");
@@ -384,10 +384,8 @@ async function displaySections() {
 
         // Create the section for products
         const section = document.createElement("section");
-        section.id = `${category.slug || category}-section`;
-        section.className = `${
-          category.slug || category
-        } flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
+        section.id = `${category.slug}-section`;
+        section.className = `${category.slug} flex gap-4 p-4 mt-4 justify-start items-stretch flex-nowrap overflow-x-auto hide-scrollbar scroll-smooth w-full`;
 
         // Arrow button functionality
         leftArrow.onclick = () => {
@@ -404,7 +402,7 @@ async function displaySections() {
         productContainer.appendChild(wrapper);
 
         // Fetch and display products for this category
-        await fetchByCategory(category.slug || category, section);
+        await fetchByCategory(category.slug, section);
       })
     );
   } catch (err) {
@@ -431,7 +429,7 @@ async function searchProducts(query) {
 
   try {
     let response = await fetch(
-      `https://dummyjson.com/products/seach?q=${query}`
+      `https://dummyjson.com/products/search?q=${query}`
     );
     if (!response.ok) {
       throw new Error(`Error found ${response.status}`);
@@ -468,7 +466,7 @@ async function searchProducts(query) {
     }
     // Display Products
   } catch (err) {
-     const main = document.getElementById("container");
+    const main = document.getElementById("container");
     main.style.display = "none";
     results.style.display = "flex";
     results.innerHTML = `

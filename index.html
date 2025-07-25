@@ -40,7 +40,10 @@
 </head>
 
 <body class="overflow-x-hidden" id="swiftly">
-
+    <div class="ai-popup">
+        <script
+            src='https://cdn.jotfor.ms/agent/embedjs/01982d2f5bea7385813bfb66f4e57fa2932a/embed.js?skipWelcome=1&maximizable=1'></script>
+    </div>
     <!-- loader -->
     <div class="banter-loader" id="loader">
         <div class="banter-loader__box"></div>
@@ -102,8 +105,8 @@
                                 <button
                                     class="w-full bg-[#AFFF00] transition text-lime-700 rounded-md py-2 hover:font-semibold duration-100 ease-in-out hover:bg-[#adfa07]">logout</button>
                             </div>
-                            
-                           
+
+
                             <div class="orders flex items-center gap-2 mt-4 text-gray-700 hover:text-[var(--accent)]">
                                 <i class="fa-solid fa-truck"></i>
                                 <p>Orders</p>
@@ -126,15 +129,17 @@
                         <!-- Dropdown -->
                         <div class="help-menu dropdown-menu hidden absolute top-full left-0 mt-3 bg-white shadow-lg rounded-md p-5 w-44 z-50"
                             id="help-menu">
-                            <div class="orders flex items-center gap-3 mt-4 text-gray-700 hover:text-[var(--accent)]">
+                            <div
+                                class="agent-msg flex items-center gap-3 mt-4 text-gray-700 hover:text-[var(--accent)]">
                                 <i class="fa-solid fa-robot"></i>
                                 <p class="ai-assistant">AI Assistant</p>
                             </div>
-                            <div class="wishlist flex items-center gap-3 mt-4 text-gray-700 hover:text-[var(--accent)]">
+                            <div
+                                class="agent-call flex items-center gap-3 mt-4 text-gray-700 hover:text-[var(--accent)]">
                                 <i class="fa-solid fa-phone"></i>
                                 <p class="customer-care">Customer Care</p>
                             </div>
-                            <div class="wishlist flex items-center gap-4 mt-4 text-gray-700 hover:text-[var(--accent)]">
+                            <div class="Email flex items-center gap-4 mt-4 text-gray-700 hover:text-[var(--accent)]">
                                 <i class="fa-solid fa-envelope"></i>
                                 <p class="send-email">Send Email</p>
                             </div>
@@ -187,11 +192,12 @@
                 &#10094; Back
             </button>
             <!-- Grid for Search Items -->
-           <div class="max-w-[1440px] mx-auto mr-4 search-items grid gap-x-6 mt-12 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full">
+            <div
+                class="max-w-[1440px] mx-auto mr-4 search-items grid gap-x-6 mt-12 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full">
                 <!-- Product cards will be injected here -->
             </div>
         </div>
-        
+
 
         <div class="itemsSection" id="container">
             <!-- Hero Section -->
@@ -309,6 +315,59 @@
             id="productInfo">
         </div>
     </div>
+    <!-- Voice Agent -->
+    <div class="voice-agent hidden py-8 bg-[var(--primary)]">
+        <button
+            class="back-btn-voice absolute top-3 left-6 px-4 py-2 text-gray-700 text-sm sm:text-base rounded-md font-semibold bg-gray-100 hover:bg-gray-200 transition"
+            id="backToMain">
+            &#10094; Back
+        </button>
+        <iframe id="JotFormIFrame-01982d2f5bea7385813bfb66f4e57fa2932a" title="Swifty: Customer Service Representative"
+            onload="window.parent.scrollTo(0,0)" allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://agent.jotform.com/01982d2f5bea7385813bfb66f4e57fa2932a/voice?embedMode=iframe&background=1&shadow=1"
+            frameborder="0" style="
+    min-width:100%;
+    max-width:100%;
+    height:688px;
+    border:none;
+    width:100%;
+  " scrolling="no">
+        </iframe>
+        <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
+        <script>
+            window.jotformEmbedHandler("iframe[id='JotFormIFrame-01982d2f5bea7385813bfb66f4e57fa2932a']",
+                "https://www.jotform.com")
+        </script>
+    </div>
+
+    <!-- msg agent -->
+    <div class="msg-agent hidden">
+        <button
+            class="back-btn-msg absolute top-3 left-6 px-4 py-2 text-gray-700 text-sm sm:text-base rounded-md font-semibold bg-gray-100 hover:bg-gray-200 transition"
+            id="backToMain">
+            &#10094; Back
+        </button>
+        <iframe id="JotFormIFrame-01982d2f5bea7385813bfb66f4e57fa2932a" title="Swifty: Customer Service Representative"
+            onload="window.parent.scrollTo(0,0)" allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://agent.jotform.com/01982d2f5bea7385813bfb66f4e57fa2932a?embedMode=iframe&background=1&shadow=1"
+            frameborder="0" style="
+    min-width:100%;
+    max-width:100%;
+    height:688px;
+    border:none;
+    width:100%;
+  " scrolling="no">
+        </iframe>
+        <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script>
+        <script>
+            window.jotformEmbedHandler("iframe[id='JotFormIFrame-01982d2f5bea7385813bfb66f4e57fa2932a']",
+                "https://www.jotform.com")
+        </script>
+    </div>
+
+    <script src="/js/agent.js"></script>
     <script src="/js/login.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/effects.js"></script>
