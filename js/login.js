@@ -19,9 +19,7 @@ class Swiftly {
 
     this.signupUsername = document.getElementById("signup-username");
     this.signupPassword = document.getElementById("signup-password");
-    this.signupEmail = document.querySelector(
-      "#signUpForm input[type='email']"
-    );
+    this.signupEmail = document.getElementById("signup-email");
 
     this.messageDisplay = document.querySelector("#current-username");
     this.messageDisplay2 = document.querySelector("#profile-username");
@@ -45,6 +43,49 @@ class Swiftly {
     if (profileBtn) {
       profileBtn.onclick = () => this.toggleProfileDropdown();
     }
+    
+    this.setupPasswordStrengthMeter();
+  }
+
+  setupPasswordStrengthMeter() {
+    const passwordInput = this.signupPassword;
+    const inputBox = passwordInput.parentElement;
+    
+    passwordInput.addEventListener('input', () => {
+      const password = passwordInput.value;
+      const strength = this.calculatePasswordStrength(password);
+      
+      // Reset classes
+      inputBox.classList.remove('weak', 'moderate', 'strong');
+      
+      if (password.length === 0) {
+        inputBox.querySelector('.strengthText').textContent = '';
+      } else if (strength <= 2) {
+        inputBox.classList.add('weak');
+        inputBox.querySelector('.strengthText').textContent = 'Weak';
+      } else if (strength <= 4) {
+        inputBox.classList.add('moderate');
+        inputBox.querySelector('.strengthText').textContent = 'Moderate';
+      } else {
+        inputBox.classList.add('strong');
+        inputBox.querySelector('.strengthText').textContent = 'Strong';
+      }
+    });
+  }
+
+  calculatePasswordStrength(password) {
+    let strength = 0;
+    
+    // Length checks
+    if (password.length > 6) strength++;
+    if (password.length >= 10) strength++;
+    
+    // Character type checks
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    
+    return strength;
   }
 
   showTransitionText() {
@@ -140,48 +181,49 @@ class Swiftly {
       this.wrapper.classList.remove("active");
     }, 2000);
   }
-handleLogin(e) {
-  e.preventDefault();
-  const enteredUsername = this.loginUsername.value.trim();
-  const enteredPassword = this.loginPassword.value.trim();
 
-  const foundUser = this.users.find(
-    (user) =>
-      user.username.toLowerCase() === enteredUsername.toLowerCase() &&
-      user.password === enteredPassword
-  );
+  handleLogin(e) {
+    e.preventDefault();
+    const enteredUsername = this.loginUsername.value.trim();
+    const enteredPassword = this.loginPassword.value.trim();
 
-  if (foundUser) {
-    this.msgBox.textContent = "";
-    this.messageDisplay2.textContent = foundUser.username;
-    this.accountnmDisplay.textContent = foundUser.accountnumber;
-    this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
+    const foundUser = this.users.find(
+      (user) =>
+        user.username.toLowerCase() === enteredUsername.toLowerCase() &&
+        user.password === enteredPassword
+    );
 
-    $("#authentication").hide();
-    $("#warning").hide();
-    $(".swiftly").show();
-    
-    // Store user ID in localStorage
-    localStorage.setItem("currentUserId", foundUser.id);
-    
-    console.log("Login successful, showing welcome message for", foundUser.username);
-    setTimeout(() => {
-      console.log("Attempting redirect to index.html");
-      this.messageDisplay.style.display = "none";
-      this.mainPage.style.display = "block";
-      try {
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("Redirect failed:", error);
-        this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
-      }
-    }, 2000);
+    if (foundUser) {
+      this.msgBox.textContent = "";
+      this.messageDisplay2.textContent = foundUser.username;
+      this.accountnmDisplay.textContent = foundUser.accountnumber;
+      this.messageDisplay.textContent = `Welcome, ${foundUser.username}!`;
 
-    localStorage.setItem("loggedInUser", foundUser.username);
-  } else {
-    this.showMessage("Invalid username or password.", "#e74c3c");
+      $("#authentication").hide();
+      $("#warning").hide();
+      $(".swiftly").show();
+      
+      // Store user ID in localStorage
+      localStorage.setItem("currentUserId", foundUser.id);
+      
+      console.log("Login successful, showing welcome message for", foundUser.username);
+      setTimeout(() => {
+        console.log("Attempting redirect to index.html");
+        this.messageDisplay.style.display = "none";
+        this.mainPage.style.display = "block";
+        try {
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Redirect failed:", error);
+          this.showMessage("Error redirecting to dashboard. Please try again.", "#e74c3c");
+        }
+      }, 2000);
+
+      localStorage.setItem("loggedInUser", foundUser.username);
+    } else {
+      this.showMessage("Invalid username or password.", "#e74c3c");
+    }
   }
-}
 
   togglePasswordVisibility() {
     const passwordField = document.getElementById("signup-password");

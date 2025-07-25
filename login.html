@@ -13,7 +13,7 @@
   <body>
     <div class="warning">
       <div class="msg"></div> 
-   </div>
+    </div>
    
     <section id="authentication">
       <div class="wrapper">
@@ -59,7 +59,7 @@
               <i class="bx bxs-user"></i>
             </div>
             <div class="input-box animation" style="--i: 19; --j: 2">
-              <input type="email" required />
+              <input type="email" id="signup-email" required />
               <label>Email</label>
               <i class="bx bxs-envelope"></i>
             </div>
@@ -67,6 +67,8 @@
               <input type="password" id="signup-password" required />
               <label>Password</label>
               <i class="bx bx-show" id="toggle"></i>
+              <div class="strengthMeter"></div>
+              <span class="strengthText"></span>
             </div>
             <button type="submit" class="btn animation" style="--i: 21; --j: 4">
               Sign Up
@@ -103,5 +105,5 @@
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/login.js"></script>
-  </body> 
+  </body>
 </html>
