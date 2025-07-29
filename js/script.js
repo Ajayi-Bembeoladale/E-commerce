@@ -172,13 +172,13 @@ function displayItems(products, section = document.body) {
       originalPrice = `₦${Math.round(
         (product.price * NAIRA_CONVERSION_RATE) /
           (1 - product.discountPercentage / 100)
-      ).toLocaleString()}`;
+      ) .toLocaleString()}`;
     }
     cards.innerHTML = `
       <div class= "rounded-md bg-lime-200 text-lime-500 text-sm w-fit font-semibold p-2">-${Math.round(
         product.discountPercentage
       )}%</div>
-      <img class="product-image" src="${imageUrl}" alt="Image of ${
+      <img class="product-image" src="${imageUrl}" alt="Image of ${ 
       product.title
     }" <img src="${imageUrl}" onerror="this.onerror=null;this.src='./images/templateImg.png'">
       <div class="product-title text-balance">
